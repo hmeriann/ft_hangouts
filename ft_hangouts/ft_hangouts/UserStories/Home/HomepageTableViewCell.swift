@@ -6,4 +6,8 @@
 //  Copyright © 2023 Zuleykha Pavlichenkova. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+final class HomepageTableViewCell: UITableViewCell {
+    
+}
