@@ -29,6 +29,7 @@ final class HomepageViewController: UIViewController {
     }
     
     func setUpUI() {
+        
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
@@ -53,6 +54,8 @@ extension HomepageViewController: UITableViewDataSource {
 
 extension HomepageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        print(contacts[indexPath.row])
+        navigationController?.pushViewController(DetailsViewController(with: contacts[indexPath.row]), animated: false)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
