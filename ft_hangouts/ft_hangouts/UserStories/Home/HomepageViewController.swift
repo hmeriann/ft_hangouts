@@ -29,6 +29,7 @@ final class HomepageViewController: UIViewController {
     }
     
     func setUpUI() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
         
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
@@ -37,6 +38,10 @@ final class HomepageViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8)
         ])
+    }
+    
+    @objc func addTapped() {
+        navigationController?.pushViewController(AddContactViewController(), animated: true)
     }
 }
 

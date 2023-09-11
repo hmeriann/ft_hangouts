@@ -14,6 +14,7 @@
 		B596BAAF2AAB18D500EA896A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B596BAAE2AAB18D500EA896A /* Assets.xcassets */; };
 		B596BABF2AAB245E00EA896A /* HomepageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B596BABE2AAB245E00EA896A /* HomepageViewController.swift */; };
 		B596BAC12AAB246C00EA896A /* HomepageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B596BAC02AAB246C00EA896A /* HomepageTableViewCell.swift */; };
+		B5AFF5842AAF2C2900E98BE3 /* AddContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AFF5832AAF2C2900E98BE3 /* AddContactViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		B596BAB32AAB18D500EA896A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B596BABE2AAB245E00EA896A /* HomepageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageViewController.swift; sourceTree = "<group>"; };
 		B596BAC02AAB246C00EA896A /* HomepageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageTableViewCell.swift; sourceTree = "<group>"; };
+		B5AFF5832AAF2C2900E98BE3 /* AddContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 		B596BAB92AAB21DD00EA896A /* UserStories */ = {
 			isa = PBXGroup;
 			children = (
+				B5AFF5822AAF2C0C00E98BE3 /* AddContact */,
 				B596BABD2AAB244900EA896A /* Home */,
 				B596BABA2AAB21FD00EA896A /* Details */,
 			);
@@ -92,6 +95,14 @@
 				B596BAC02AAB246C00EA896A /* HomepageTableViewCell.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		B5AFF5822AAF2C0C00E98BE3 /* AddContact */ = {
+			isa = PBXGroup;
+			children = (
+				B5AFF5832AAF2C2900E98BE3 /* AddContactViewController.swift */,
+			);
+			path = AddContact;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -167,6 +178,7 @@
 				B596BABF2AAB245E00EA896A /* HomepageViewController.swift in Sources */,
 				B596BAA72AAB18D400EA896A /* DetailsViewController.swift in Sources */,
 				B596BAA32AAB18D400EA896A /* AppDelegate.swift in Sources */,
+				B5AFF5842AAF2C2900E98BE3 /* AddContactViewController.swift in Sources */,
 				B596BAC12AAB246C00EA896A /* HomepageTableViewCell.swift in Sources */,
 				B596BAAD2AAB18D400EA896A /* ft_hangouts.xcdatamodeld in Sources */,
 			);
