@@ -17,57 +17,53 @@ final class AddContactViewController: UIViewController {
         userpic.layer.cornerRadius = 60
         userpic.clipsToBounds = true
         userpic.tintColor = .gray
+        userpic.image = UIImage(systemName: "person")
         return userpic
     }()
     
-    private lazy var nameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 20, weight: .bold)
-        label.numberOfLines = 1
+    private lazy var nameLabel: UITextField = {
+        let field = UITextField()
+        field.translatesAutoresizingMaskIntoConstraints = false
+        field.font = .systemFont(ofSize: 20, weight: .bold)
         
-        label.text = "Name"
-        return label
+        field.text = "Name"
+        return field
     }()
     
-    private lazy var lastNameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 20, weight: .bold)
-        label.numberOfLines = 1
+    private lazy var lastNameLabel: UITextField = {
+        let field = UITextField()
+        field.translatesAutoresizingMaskIntoConstraints = false
+        field.font = .systemFont(ofSize: 20, weight: .bold)
         
-        label.text = "Lastname"
-        return label
+        field.text = "Lastname"
+        return field
     }()
     
-    private lazy var birthDateLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.numberOfLines = 1
+    private lazy var birthDateLabel: UITextField = {
+        let field = UITextField()
+        field.translatesAutoresizingMaskIntoConstraints = false
+        field.font = .systemFont(ofSize: 14, weight: .regular)
         
-        label.text = "10.10.2010"
-        return label
+        field.text = "10.10.2010"
+        return field
     }()
     
-    private lazy var phoneNumberLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.numberOfLines = 1
+    private lazy var phoneNumberLabel: UITextField = {
+        let field = UITextField()
+        field.translatesAutoresizingMaskIntoConstraints = false
+        field.font = .systemFont(ofSize: 14, weight: .regular)
         
-        label.text = "+31 3131 313131"
-        return label
+        field.text = "+31 3131 313131"
+        return field
     }()
     
-    private lazy var emailLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.numberOfLines = 1
+    private lazy var emailLabel: UITextField = {
+        let field = UITextField()
+        field.translatesAutoresizingMaskIntoConstraints = false
+        field.font = .systemFont(ofSize: 14, weight: .regular)
         
-        label.text = "31@31.nl"
-        return label
+        field.text = "31@31.nl"
+        return field
     }()
     
     private lazy var verticalStack: UIStackView = {
@@ -76,7 +72,7 @@ final class AddContactViewController: UIViewController {
         stack.alignment = .center
         stack.axis = .vertical
         stack.distribution = .equalSpacing
-        stack.spacing = 8
+//        stack.spacing = 8
         return stack
     }()
     
@@ -97,12 +93,12 @@ final class AddContactViewController: UIViewController {
             verticalStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
         
-        verticalStack.addSubview(userPicure)
-        verticalStack.addSubview(nameLabel)
-        verticalStack.addSubview(lastNameLabel)
-        verticalStack.addSubview(birthDateLabel)
-        verticalStack.addSubview(phoneNumberLabel)
-        verticalStack.addSubview(emailLabel)
+        verticalStack.addArrangedSubview(userPicure)
+        verticalStack.addArrangedSubview(nameLabel)
+        verticalStack.addArrangedSubview(lastNameLabel)
+        verticalStack.addArrangedSubview(birthDateLabel)
+        verticalStack.addArrangedSubview(phoneNumberLabel)
+        verticalStack.addArrangedSubview(emailLabel)
     }
     
     @objc func saveTapped() {
