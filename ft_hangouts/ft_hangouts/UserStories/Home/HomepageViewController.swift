@@ -10,16 +10,15 @@ import UIKit
 
 final class HomepageViewController: UIViewController {
     
-    let contacts = ["Anna", "Ben", "Byron", "Agness"]
+    let contacts = Contact.defaultContacts()
     
     private lazy var tableView: UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
         table.dataSource = self
         table.delegate = self
-        table.register(HomepageTableViewCell.self, forCellReuseIdentifier: "HomepageTableViewCell")
-        table.rowHeight = UITableView.automaticDimension
-        
+        table.register(HomepageTableViewCell.self, forCellReuseIdentifier: "homepageTableViewCell")
+//        table.rowHeight = 40
         return table
     }()
     
@@ -51,16 +50,20 @@ extension HomepageViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "HomepageTableViewCell", for: indexPath)
-        cell.textLabel?.text = contacts[indexPath.row]
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "homepageTableViewCell", for: indexPath
+            ) as? HomepageTableViewCell else { return UITableViewCell()}
+        
+        cell.configure(with: contacts[indexPath.row])
         return cell
     }
 }
 
 extension HomepageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(contacts[indexPath.row])
-        navigationController?.pushViewController(DetailsViewController(with: contacts[indexPath.row]), animated: false)
+        print(contacts[indexPath.row].firstName)
+//        navigationController?.present(DetailsViewController(with: contacts[indexPath.row].firstName), animated: true)
+        navigationController?.pushViewController(DetailsViewController(with: contacts[indexPath.row].firstName), animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

@@ -10,6 +10,8 @@ import UIKit
 
 final class AddContactViewController: UIViewController {
     
+    let contacts = Contact.defaultContacts()
+    
     private lazy var userPicure: UIImageView = {
         let userpic = UIImageView()
         userpic.translatesAutoresizingMaskIntoConstraints = false
@@ -17,92 +19,66 @@ final class AddContactViewController: UIViewController {
         userpic.layer.cornerRadius = 60
         userpic.clipsToBounds = true
         userpic.tintColor = .gray
-        userpic.image = UIImage(systemName: "person")
+        userpic.image = UIImage(systemName: "person.crop.circle.fill")
         return userpic
     }()
     
-    private lazy var nameLabel: UITextField = {
-        let field = UITextField()
-        field.translatesAutoresizingMaskIntoConstraints = false
-        field.font = .systemFont(ofSize: 20, weight: .bold)
-        
-        field.text = "Name"
-        return field
+    private lazy var tableView: UITableView = {
+        let table = UITableView(frame: view.bounds, style: .grouped)
+        table.translatesAutoresizingMaskIntoConstraints = false
+        table.register(AddContactCell.self, forCellReuseIdentifier: "addContactCell")
+        table.dataSource = self
+        table.delegate = self
+        return table
     }()
-    
-    private lazy var lastNameLabel: UITextField = {
-        let field = UITextField()
-        field.translatesAutoresizingMaskIntoConstraints = false
-        field.font = .systemFont(ofSize: 20, weight: .bold)
-        
-        field.text = "Lastname"
-        return field
-    }()
-    
-    private lazy var birthDateLabel: UITextField = {
-        let field = UITextField()
-        field.translatesAutoresizingMaskIntoConstraints = false
-        field.font = .systemFont(ofSize: 14, weight: .regular)
-        
-        field.text = "10.10.2010"
-        return field
-    }()
-    
-    private lazy var phoneNumberLabel: UITextField = {
-        let field = UITextField()
-        field.translatesAutoresizingMaskIntoConstraints = false
-        field.font = .systemFont(ofSize: 14, weight: .regular)
-        
-        field.text = "+31 3131 313131"
-        return field
-    }()
-    
-    private lazy var emailLabel: UITextField = {
-        let field = UITextField()
-        field.translatesAutoresizingMaskIntoConstraints = false
-        field.font = .systemFont(ofSize: 14, weight: .regular)
-        
-        field.text = "31@31.nl"
-        return field
-    }()
-    
-    private lazy var verticalStack: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.alignment = .center
-        stack.axis = .vertical
-        stack.distribution = .equalSpacing
-//        stack.spacing = 8
-        return stack
-    }()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Add New Contact"
         setUpUI()
     }
     
     func setUpUI() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
-        
-        view.addSubview(verticalStack)
+        view.addSubview(userPicure)
         NSLayoutConstraint.activate([
-            verticalStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            verticalStack.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            verticalStack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            verticalStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            userPicure.heightAnchor.constraint(equalToConstant: 150),
+            userPicure.widthAnchor.constraint(equalToConstant: 150),
+            userPicure.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            userPicure.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
         ])
-        
-        verticalStack.addArrangedSubview(userPicure)
-        verticalStack.addArrangedSubview(nameLabel)
-        verticalStack.addArrangedSubview(lastNameLabel)
-        verticalStack.addArrangedSubview(birthDateLabel)
-        verticalStack.addArrangedSubview(phoneNumberLabel)
-        verticalStack.addArrangedSubview(emailLabel)
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: userPicure.bottomAnchor, constant: 16),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 4),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -4),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -4),
+        ])
     }
+    
+    
     
     @objc func saveTapped() {
         
     }
 }
 
+extension AddContactViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return contacts.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "addContactCell", for: indexPath)
+//        cell.configure(with: contacts[indexPath.row])
+        
+        return cell
+    }
+    
+    
+    
+}
+
+extension AddContactViewController: UITableViewDelegate {
+    
+}
