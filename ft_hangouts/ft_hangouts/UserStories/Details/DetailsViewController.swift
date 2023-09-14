@@ -14,10 +14,8 @@ class DetailsViewController: UIViewController {
     private lazy var userPicure: UIImageView = {
         let userpic = UIImageView()
         userpic.translatesAutoresizingMaskIntoConstraints = false
-        userpic.contentMode = .scaleAspectFill
-        userpic.layer.cornerRadius = 60
-        userpic.clipsToBounds = true
         userpic.tintColor = .gray
+//        userpic.image = UIImage(systemName: "person.crop.circle.fill")
         return userpic
     }()
     
@@ -58,40 +56,62 @@ class DetailsViewController: UIViewController {
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.alignment = .center
         stack.axis = .vertical
-        stack.distribution = .equalSpacing
+        stack.distribution = .fillProportionally
         stack.spacing = 8
         return stack
     }()
     
-    var name: String = ""
+    private let contact: Contact
     
-    init(with name: String) {
+    init(with contact: Contact) {
+        self.contact = contact
         super.init(nibName: nil, bundle: nil)
-        self.name = name
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(verticalStack)
-        NSLayoutConstraint.activate([
-            verticalStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            verticalStack.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            verticalStack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            verticalStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-        ])
-        
-        verticalStack.addSubview(userPicure)
-        verticalStack.addSubview(fullNameLabel)
-        verticalStack.addSubview(birthDateLabel)
-        verticalStack.addSubview(phoneNumberLabel)
-        verticalStack.addSubview(emailLabel)
+        show(details: contact)
     }
 
+    func show(details: Contact) {
+        userPicure.image = contact.userPicture
+        fullNameLabel.text = contact.firstName + " " + contact.lastName
+        birthDateLabel.text = contact.birthDate
+        phoneNumberLabel.text = contact.phoneNumber
+        emailLabel.text = contact.email
+        setUpUI()
+    }
+    
+    func setUpUI() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editContactTapped))
 
+        view.addSubview(userPicure)
+        NSLayoutConstraint.activate([
+            userPicure.heightAnchor.constraint(equalToConstant: 100),
+            userPicure.widthAnchor.constraint(equalToConstant: 100),
+            userPicure.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            userPicure.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+        ])
+
+        view.addSubview(verticalStack)
+        NSLayoutConstraint.activate([
+            verticalStack.topAnchor.constraint(equalTo: userPicure.bottomAnchor, constant: 16),
+            verticalStack.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            verticalStack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+//            verticalStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
+        verticalStack.addArrangedSubview(fullNameLabel)
+        verticalStack.addArrangedSubview(birthDateLabel)
+        verticalStack.addArrangedSubview(phoneNumberLabel)
+        verticalStack.addArrangedSubview(emailLabel)
+    }
+    
+    @objc func editContactTapped(){
+        print(#function)
+    }
 }
 

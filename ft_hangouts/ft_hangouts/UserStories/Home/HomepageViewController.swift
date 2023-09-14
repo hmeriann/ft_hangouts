@@ -63,7 +63,7 @@ extension HomepageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(contacts[indexPath.row].firstName)
 //        navigationController?.present(DetailsViewController(with: contacts[indexPath.row].firstName), animated: true)
-        navigationController?.pushViewController(DetailsViewController(with: contacts[indexPath.row].firstName), animated: true)
+        navigationController?.pushViewController(DetailsViewController(with: contacts[indexPath.row]), animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
