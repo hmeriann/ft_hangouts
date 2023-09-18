@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ContactsUI
 
 final class HomepageViewController: UIViewController {
     
@@ -24,7 +25,13 @@ final class HomepageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Contacts"
         setUpUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        navigationController?.navigationBar.tintColor = .white
     }
     
     func setUpUI() {
@@ -63,7 +70,17 @@ extension HomepageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(contacts[indexPath.row].firstName)
 //        navigationController?.present(DetailsViewController(with: contacts[indexPath.row].firstName), animated: true)
-        navigationController?.pushViewController(DetailsViewController(with: contacts[indexPath.row]), animated: true)
-        tableView.deselectRow(at: indexPath, animated: true)
+//        navigationController?.pushViewController(DetailsViewController(with: contacts[indexPath.row]), animated: true)
+//        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let friendContact = contacts[indexPath.row]
+        let contact = friendContact.contactValue
+        
+        let contactViewController = CNContactViewController(forUnknownContact: contact)
+        contactViewController.hidesBottomBarWhenPushed = true
+        contactViewController.allowsEditing = false
+        contactViewController.allowsActions = false
+        navigationController?.navigationBar.tintColor = .lightGray
+        navigationController?.pushViewController(contactViewController, animated: true)
     }
 }

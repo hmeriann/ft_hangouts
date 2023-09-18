@@ -81,8 +81,8 @@ class DetailsViewController: UIViewController {
         userPicure.image = contact.userPicture
         fullNameLabel.text = contact.firstName + " " + contact.lastName
         birthDateLabel.text = contact.birthDate
-        phoneNumberLabel.text = contact.phoneNumber
-        emailLabel.text = contact.email
+//        phoneNumberLabel.text = contact.phoneNumber
+//        emailLabel.text = contact.email
         setUpUI()
     }
     

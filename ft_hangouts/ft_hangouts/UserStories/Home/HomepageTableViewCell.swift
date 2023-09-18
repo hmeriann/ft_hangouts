@@ -54,7 +54,7 @@ final class HomepageTableViewCell: UITableViewCell {
 
     func configure(with contact: Contact) {
         fullNameLabel.text = contact.firstName + " " + contact.lastName
-        phoneNumberLabel.text = contact.phoneNumber
+//        phoneNumberLabel.text = contact.phoneNumber
 //        accessoryType = .detailButton
     }
     
