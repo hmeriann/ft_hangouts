@@ -11,7 +11,7 @@ import ContactsUI
 
 final class HomepageViewController: UIViewController {
     
-    let contacts = Contact.defaultContacts()
+    var contactList = Contact.defaultContacts()
     
     private lazy var tableView: UITableView = {
         let table = UITableView()
@@ -19,41 +19,61 @@ final class HomepageViewController: UIViewController {
         table.dataSource = self
         table.delegate = self
         table.register(HomepageTableViewCell.self, forCellReuseIdentifier: "homepageTableViewCell")
-//        table.rowHeight = 40
         return table
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Contacts"
+        
+        setUpNavigationBar()
+        
         setUpUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         navigationController?.navigationBar.tintColor = .white
+
     }
     
     func setUpUI() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
-        
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8)
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
         ])
     }
     
     @objc func addTapped() {
-        navigationController?.pushViewController(AddContactViewController(), animated: true)
+        let contactPicker = CNContactPickerViewController()
+        contactPicker.delegate = self
+        
+        contactPicker.predicateForEnablingContact = NSPredicate(format: "emailAddresses.@count > 0")
+        present(contactPicker, animated: true, completion: nil)
+    }
+    
+    func setUpNavigationBar() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .purple
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
 }
 
 extension HomepageViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contacts.count
+        return contactList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -61,19 +81,19 @@ extension HomepageViewController: UITableViewDataSource {
             withIdentifier: "homepageTableViewCell", for: indexPath
             ) as? HomepageTableViewCell else { return UITableViewCell()}
         
-        cell.configure(with: contacts[indexPath.row])
+        cell.configure(with: contactList[indexPath.row])
         return cell
     }
 }
 
 extension HomepageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(contacts[indexPath.row].firstName)
+        print(contactList[indexPath.row].firstName)
 //        navigationController?.present(DetailsViewController(with: contacts[indexPath.row].firstName), animated: true)
 //        navigationController?.pushViewController(DetailsViewController(with: contacts[indexPath.row]), animated: true)
-//        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
         
-        let friendContact = contacts[indexPath.row]
+        let friendContact = contactList[indexPath.row]
         let contact = friendContact.contactValue
         
         let contactViewController = CNContactViewController(forUnknownContact: contact)
@@ -82,5 +102,21 @@ extension HomepageViewController: UITableViewDelegate {
         contactViewController.allowsActions = false
         navigationController?.navigationBar.tintColor = .lightGray
         navigationController?.pushViewController(contactViewController, animated: true)
+    }
+}
+
+extension HomepageViewController: CNContactPickerDelegate {
+    
+    func contactPicker(
+        _ picker: CNContactPickerViewController,
+        didSelect contacts: [CNContact]
+    ) {
+        let newContacts = contacts.compactMap { Contact(contact: $0) }
+        for contact in newContacts {
+            if !contactList.contains(contact) {
+                contactList.append(contact)
+            }
+        }
+        tableView.reloadData()
     }
 }

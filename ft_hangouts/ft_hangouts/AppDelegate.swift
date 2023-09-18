@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Contacts
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window.backgroundColor = .white
         window.rootViewController = navigationViewController
         navigationViewController.viewControllers = [viewController]
+        CNContactStore().requestAccess(for: .contacts) { (access, error) in
+            print("Access: \(access)")
+        }
         
         window.makeKeyAndVisible()
         self.window = window
