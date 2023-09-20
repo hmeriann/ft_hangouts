@@ -68,9 +68,10 @@ final class HomepageViewController: UIViewController {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.edgesForExtendedLayout = []
     }
 }
-
+//
 extension HomepageViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return contactList.count
@@ -88,9 +89,7 @@ extension HomepageViewController: UITableViewDataSource {
 
 extension HomepageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(contactList[indexPath.row].firstName)
-//        navigationController?.present(DetailsViewController(with: contacts[indexPath.row].firstName), animated: true)
-//        navigationController?.pushViewController(DetailsViewController(with: contacts[indexPath.row]), animated: true)
+
         tableView.deselectRow(at: indexPath, animated: true)
         
         let friendContact = contactList[indexPath.row]

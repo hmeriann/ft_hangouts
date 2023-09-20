@@ -10,8 +10,6 @@ import UIKit
 
 final class AddContactViewController: UIViewController {
     
-    let contacts = Contact.defaultContacts()
-    
     private lazy var userPicure: UIImageView = {
         let userpic = UIImageView()
         userpic.translatesAutoresizingMaskIntoConstraints = false
@@ -65,7 +63,7 @@ final class AddContactViewController: UIViewController {
 
 extension AddContactViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contacts.count
+        return 6
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
