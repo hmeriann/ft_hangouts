@@ -24,6 +24,7 @@ final class HomepageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "ft_hangouts"
         setUpUI()
     }
     

@@ -15,6 +15,7 @@ final class AddContactViewController: UIViewController {
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.isScrollEnabled = true
         return view
     }()
     
@@ -62,7 +63,7 @@ final class AddContactViewController: UIViewController {
         field.translatesAutoresizingMaskIntoConstraints = false
         field.font = .systemFont(ofSize: 24)
         field.borderStyle = .roundedRect
-        field.placeholder = "+X XXX XXX XXXX"
+        field.placeholder = "Phone number"
         field.clearButtonMode = .whileEditing
 
         return field
@@ -73,27 +74,30 @@ final class AddContactViewController: UIViewController {
         field.translatesAutoresizingMaskIntoConstraints = false
         field.font = .systemFont(ofSize: 24)
         field.borderStyle = .roundedRect
-        field.placeholder = "email@email.nl"
+        field.placeholder = "Email"
         field.clearButtonMode = .whileEditing
 
         return field
     }()
     
-    private lazy var birthDatePicker: UIDatePicker = {
-        let picker = UIDatePicker()
-        picker.translatesAutoresizingMaskIntoConstraints = false
-        picker.datePickerMode = .date
-        picker.preferredDatePickerStyle = .wheels
-        return picker
+    private lazy var birthDateField: UITextField = {
+        let field = UITextField()
+        field.translatesAutoresizingMaskIntoConstraints = false
+        field.font = .systemFont(ofSize: 24)
+        field.borderStyle = .roundedRect
+        field.placeholder = "Birth date"
+        field.clearButtonMode = .whileEditing
+
+        return field
     }()
     
-    private lazy var birthDateLabel: UILabel = {
-        let pickerLabel = UILabel()
-        pickerLabel.translatesAutoresizingMaskIntoConstraints = false
-        pickerLabel.font = .systemFont(ofSize: 24)
-        pickerLabel.textColor = .systemGray
-        pickerLabel.text = "Birth date"
-        return pickerLabel
+    private lazy var saveButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Save New Contact", for: .normal)
+        button.addTarget(self, action: #selector(saveTapped), for: .touchUpInside)
+        button.setTitleColor(.systemBlue, for: .normal)
+        return button
     }()
     
     private lazy var verticalStack: UIStackView = {
@@ -124,21 +128,22 @@ final class AddContactViewController: UIViewController {
             scrollContentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             scrollContentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             scrollContentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            scrollContentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+            // TODO: - The height is redundant when it's vertical orientation
+            scrollContentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 2)
             
         ])
         scrollContentView.addSubview(userPicure)
         NSLayoutConstraint.activate([
             userPicure.heightAnchor.constraint(equalToConstant: 150),
             userPicure.widthAnchor.constraint(equalToConstant: 150),
-            userPicure.topAnchor.constraint(equalTo: scrollContentView.safeAreaLayoutGuide.topAnchor, constant: 8),
+            userPicure.topAnchor.constraint(equalTo: scrollContentView.safeAreaLayoutGuide.topAnchor, constant: 16),
             userPicure.centerXAnchor.constraint(equalTo: scrollContentView.safeAreaLayoutGuide.centerXAnchor),
         ])
         
         scrollContentView.addSubview(verticalStack)
         NSLayoutConstraint.activate([
             verticalStack.topAnchor.constraint(equalTo: userPicure.bottomAnchor, constant: 16),
-            verticalStack.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor, constant: 16),
+            verticalStack.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor, constant:  16),
             verticalStack.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor, constant: -16),
             //            verticalStack.bottomAnchor.constraint(equalTo: scrollContentView.bottomAnchor),
         ])
@@ -146,16 +151,15 @@ final class AddContactViewController: UIViewController {
         verticalStack.addArrangedSubview(lastNameField)
         verticalStack.addArrangedSubview(phoneNumberField)
         verticalStack.addArrangedSubview(emailField)
-        verticalStack.addArrangedSubview(birthDateLabel)
-        verticalStack.addArrangedSubview(birthDatePicker)
+        verticalStack.addArrangedSubview(birthDateField)
+        verticalStack.addArrangedSubview(saveButton)
         NSLayoutConstraint.activate([
-            nameField.widthAnchor.constraint(equalTo: scrollContentView.widthAnchor),
-            lastNameField.widthAnchor.constraint(equalTo: scrollContentView.widthAnchor),
-            phoneNumberField.widthAnchor.constraint(equalTo: scrollContentView.widthAnchor),
-            emailField.widthAnchor.constraint(equalTo: scrollContentView.widthAnchor),
-            birthDateLabel.widthAnchor.constraint(equalTo: scrollContentView.widthAnchor),
-            birthDatePicker.widthAnchor.constraint(equalTo: scrollContentView.widthAnchor),
-
+            nameField.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
+            lastNameField.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
+            phoneNumberField.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
+            emailField.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
+            birthDateField.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
+            saveButton.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
         ])
     }
     
@@ -168,6 +172,6 @@ final class AddContactViewController: UIViewController {
     
     
     @objc func saveTapped() {
-        
+        print(#function)
     }
 }
