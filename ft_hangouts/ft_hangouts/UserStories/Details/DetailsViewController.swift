@@ -9,7 +9,7 @@
 import UIKit
 
 class DetailsViewController: UIViewController {
-
+    
     // MARK: - UI Elements
     private lazy var userPicure: UIImageView = {
         let userpic = UIImageView()
@@ -112,6 +112,7 @@ class DetailsViewController: UIViewController {
     
     @objc func editContactTapped(){
         print(#function)
+        navigationController?.pushViewController(EditContactViewController(with: contact), animated: true)
     }
 }
 
