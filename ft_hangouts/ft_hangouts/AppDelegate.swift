@@ -24,6 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window.makeKeyAndVisible()
         self.window = window
+        
+        getCoreDataDBPath()
+        
         return true
     }
 
@@ -32,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     lazy var persistentContainer: NSPersistentContainer = {
     
-        let container = NSPersistentContainer(name: "ft_hangouts")
+        let container = NSPersistentContainer(name: "ContactDataModel")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 
@@ -56,6 +59,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
+    
+    func getCoreDataDBPath() {
+        let path = FileManager
+            .default
+            .urls(for: .applicationSupportDirectory, in: .userDomainMask)
+            .last?
+            .absoluteString
+            .replacingOccurrences(of: "file://", with: "")
+            .removingPercentEncoding
+        print("!!! Core Data DB Path :: \(path ?? "Not found")")
+    }
 }
 
