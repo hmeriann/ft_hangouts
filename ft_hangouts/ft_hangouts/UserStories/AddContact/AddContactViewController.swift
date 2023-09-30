@@ -77,19 +77,34 @@ final class AddContactViewController: UIViewController {
         field.borderStyle = .roundedRect
         field.placeholder = "Email"
         field.clearButtonMode = .whileEditing
-
         return field
     }()
     
-    private lazy var birthDateField: UITextField = {
-        let field = UITextField()
-        field.translatesAutoresizingMaskIntoConstraints = false
-        field.font = .systemFont(ofSize: 24)
-        field.borderStyle = .roundedRect
-        field.placeholder = "Birth date"
-        field.clearButtonMode = .whileEditing
+    private lazy var birthDatePicker: UIDatePicker = {
+        let picker = UIDatePicker()
+        picker.translatesAutoresizingMaskIntoConstraints = false
+        picker.preferredDatePickerStyle = .compact
+        picker.datePickerMode = .date
+        return picker
+    }()
 
-        return field
+    private lazy var birthDateLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Birth date"
+        label.font = .systemFont(ofSize: 24)
+        label.textColor = .systemGray
+        return label
+    }()
+    
+    private lazy var horizontalStack: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+//        stack.alignment = .center
+        stack.axis = .horizontal
+        stack.distribution = .equalSpacing
+        stack.spacing = 8
+        return stack
     }()
     
     private lazy var saveButton: UIButton = {
@@ -111,7 +126,6 @@ final class AddContactViewController: UIViewController {
         return stack
     }()
     
-    
     func setUpUI() {
         
         view.addSubview(scrollView)
@@ -129,9 +143,6 @@ final class AddContactViewController: UIViewController {
             scrollContentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             scrollContentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             scrollContentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            // TODO: - The height is redundant when it's vertical orientation
-            scrollContentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 2)
-            
         ])
         scrollContentView.addSubview(userPicure)
         NSLayoutConstraint.activate([
@@ -146,21 +157,25 @@ final class AddContactViewController: UIViewController {
             verticalStack.topAnchor.constraint(equalTo: userPicure.bottomAnchor, constant: 16),
             verticalStack.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor, constant:  16),
             verticalStack.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor, constant: -16),
+            verticalStack.bottomAnchor.constraint(equalTo: scrollContentView.bottomAnchor, constant: -16),
+
         ])
         verticalStack.addArrangedSubview(nameField)
         verticalStack.addArrangedSubview(lastNameField)
         verticalStack.addArrangedSubview(phoneNumberField)
         verticalStack.addArrangedSubview(emailField)
-        verticalStack.addArrangedSubview(birthDateField)
+        verticalStack.addArrangedSubview(horizontalStack)
         verticalStack.addArrangedSubview(saveButton)
         NSLayoutConstraint.activate([
             nameField.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
             lastNameField.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
             phoneNumberField.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
             emailField.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
-            birthDateField.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
+            horizontalStack.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
             saveButton.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
         ])
+        horizontalStack.addArrangedSubview(birthDateLabel)
+        horizontalStack.addArrangedSubview(birthDatePicker)
     }
     
     override func viewDidLoad() {
@@ -180,9 +195,13 @@ final class AddContactViewController: UIViewController {
         let managedContext = appDelegate.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "Contact", in: managedContext)!
         let contact = NSManagedObject(entity: entity, insertInto: managedContext)
+        contact.setValue(UUID(), forKey: "contactId")
         contact.setValue(nameField.text, forKey: "firstName")
         contact.setValue(lastNameField.text, forKey: "lastName")
-        contact.setValue(UUID(), forKey: "contactId")
+//        contact.setValue(userPicure.image, forKey: "userPicture")
+        contact.setValue(emailField.text, forKey: "email")
+        contact.setValue(phoneNumberField.text, forKey: "phoneNumber")
+        contact.setValue(birthDatePicker.date, forKey: "birthDate")
         do {
             try managedContext.save()
             contacts.append(contact)
