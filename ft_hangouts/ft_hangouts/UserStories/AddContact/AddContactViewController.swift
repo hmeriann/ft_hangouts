@@ -20,13 +20,6 @@ final class AddContactViewController: UIViewController {
         return view
     }()
     
-    private lazy var scrollContentView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .quaternarySystemFill
-        return view
-    }()
-    
     private lazy var userPicure: UIImageView = {
         let userpic = UIImageView()
         userpic.translatesAutoresizingMaskIntoConstraints = false
@@ -119,7 +112,7 @@ final class AddContactViewController: UIViewController {
     private lazy var verticalStack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.alignment = .center
+        stack.alignment = .fill
         stack.axis = .vertical
         stack.distribution = .equalSpacing
         stack.spacing = 8
@@ -135,30 +128,20 @@ final class AddContactViewController: UIViewController {
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
-        
-        scrollView.addSubview(scrollContentView)
-        NSLayoutConstraint.activate([
-            scrollContentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            scrollContentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            scrollContentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            scrollContentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            scrollContentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-        ])
-        scrollContentView.addSubview(userPicure)
+        scrollView.addSubview(userPicure)
         NSLayoutConstraint.activate([
             userPicure.heightAnchor.constraint(equalToConstant: 150),
             userPicure.widthAnchor.constraint(equalToConstant: 150),
-            userPicure.topAnchor.constraint(equalTo: scrollContentView.safeAreaLayoutGuide.topAnchor, constant: 16),
-            userPicure.centerXAnchor.constraint(equalTo: scrollContentView.safeAreaLayoutGuide.centerXAnchor),
+            userPicure.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 16),
+            userPicure.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
         ])
-        
-        scrollContentView.addSubview(verticalStack)
+        scrollView.addSubview(verticalStack)
         NSLayoutConstraint.activate([
+            verticalStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -32),
             verticalStack.topAnchor.constraint(equalTo: userPicure.bottomAnchor, constant: 16),
-            verticalStack.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor, constant:  16),
-            verticalStack.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor, constant: -16),
-            verticalStack.bottomAnchor.constraint(equalTo: scrollContentView.bottomAnchor, constant: -16),
-
+            verticalStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant:  16),
+            verticalStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
+            verticalStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16),
         ])
         verticalStack.addArrangedSubview(nameField)
         verticalStack.addArrangedSubview(lastNameField)
@@ -166,14 +149,6 @@ final class AddContactViewController: UIViewController {
         verticalStack.addArrangedSubview(emailField)
         verticalStack.addArrangedSubview(horizontalStack)
         verticalStack.addArrangedSubview(saveButton)
-        NSLayoutConstraint.activate([
-            nameField.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
-            lastNameField.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
-            phoneNumberField.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
-            emailField.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
-            horizontalStack.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
-            saveButton.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
-        ])
         horizontalStack.addArrangedSubview(birthDateLabel)
         horizontalStack.addArrangedSubview(birthDatePicker)
     }
@@ -187,10 +162,7 @@ final class AddContactViewController: UIViewController {
     
     
     @objc func saveTapped() {
-        print(#function)
-        
         let application = UIApplication.shared
-        
         guard let appDelegate = application.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "Contact", in: managedContext)!
