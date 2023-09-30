@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import CoreData
 
 final class AddContactViewController: UIViewController {
     
-    let contacts = Contact.defaultContacts()
+    var contacts: [NSManagedObject] = []
     
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -145,7 +146,6 @@ final class AddContactViewController: UIViewController {
             verticalStack.topAnchor.constraint(equalTo: userPicure.bottomAnchor, constant: 16),
             verticalStack.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor, constant:  16),
             verticalStack.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor, constant: -16),
-            //            verticalStack.bottomAnchor.constraint(equalTo: scrollContentView.bottomAnchor),
         ])
         verticalStack.addArrangedSubview(nameField)
         verticalStack.addArrangedSubview(lastNameField)
@@ -173,5 +173,21 @@ final class AddContactViewController: UIViewController {
     
     @objc func saveTapped() {
         print(#function)
+        
+        let application = UIApplication.shared
+        
+        guard let appDelegate = application.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "Contact", in: managedContext)!
+        let contact = NSManagedObject(entity: entity, insertInto: managedContext)
+        contact.setValue(nameField.text, forKey: "firstName")
+        contact.setValue(lastNameField.text, forKey: "lastName")
+        contact.setValue(UUID(), forKey: "contactId")
+        do {
+            try managedContext.save()
+            contacts.append(contact)
+        } catch let error as NSError {
+            print("Couldn't save. \(error), \(error.userInfo)")
+        }
     }
 }
