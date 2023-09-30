@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import CoreData
 
 final class HomepageTableViewCell: UITableViewCell {
-    
+        
     private lazy var fullNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -21,7 +22,6 @@ final class HomepageTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 14, weight: .light)
-
         return label
     }()
     
@@ -47,15 +47,17 @@ final class HomepageTableViewCell: UITableViewCell {
             phoneNumberLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             phoneNumberLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             phoneNumberLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-
         ])
-        
     }
 
     func configure(with contact: Contact) {
-        fullNameLabel.text = contact.firstName + " " + contact.lastName
+        guard
+            case let name = contact.firstName,
+            let lastName = contact.lastName
+        else { return }
+        
+        fullNameLabel.text = name + " " + lastName
         phoneNumberLabel.text = contact.phoneNumber
-//        accessoryType = .detailButton
     }
     
     override func prepareForReuse() {
@@ -63,6 +65,4 @@ final class HomepageTableViewCell: UITableViewCell {
         fullNameLabel.text = ""
         phoneNumberLabel.text = ""
     }
-    
-    
 }

@@ -7,18 +7,18 @@
 //
 
 import UIKit
+import CoreData
 
 final class HomepageViewController: UIViewController {
     
-    let contacts = Contact.defaultContacts()
+    var contacts: [Contact] = []
     
     private lazy var tableView: UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
         table.dataSource = self
-        table.delegate = self
+//        table.delegate = self
         table.register(HomepageTableViewCell.self, forCellReuseIdentifier: "homepageTableViewCell")
-//        table.rowHeight = 40
         return table
     }()
     
@@ -26,6 +26,24 @@ final class HomepageViewController: UIViewController {
         super.viewDidLoad()
         title = "ft_hangouts"
         setUpUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+//        let fetchRequest = NSFetchRequest<Contact>(entityName: "Contact")
+        let fs = Contact.fetchRequest()
+        
+        do {
+            let dbContacts = try managedContext.fetch(fs)
+            contacts = dbContacts
+        } catch let error as NSError {
+            print("Couldn't fetch. \(error), \(error.userInfo)")
+        }
+        tableView.reloadData()
     }
     
     func setUpUI() {
@@ -51,20 +69,22 @@ extension HomepageViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let contact = contacts[indexPath.row]
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: "homepageTableViewCell", for: indexPath
             ) as? HomepageTableViewCell else { return UITableViewCell()}
         
-        cell.configure(with: contacts[indexPath.row])
+        cell.configure(with: contact)
         return cell
     }
 }
 
-extension HomepageViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(contacts[indexPath.row].firstName)
-//        navigationController?.present(DetailsViewController(with: contacts[indexPath.row].firstName), animated: true)
-        navigationController?.pushViewController(DetailsViewController(with: contacts[indexPath.row]), animated: true)
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-}
+//extension HomepageViewController: UITableViewDelegate {
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+////        print(contacts[indexPath.row].firstName)
+////        navigationController?.present(DetailsViewController(with: contacts[indexPath.row].firstName), animated: true)
+//        navigationController?.pushViewController(DetailsViewController(with: contacts[indexPath.row]), animated: true)
+//        tableView.deselectRow(at: indexPath, animated: true)
+//    }
+//}
