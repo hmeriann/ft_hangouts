@@ -9,9 +9,21 @@
 import UIKit
 import CoreData
 
+enum ContactViewMode {
+    case add
+    case edit(Contact)
+}
+
 final class AddContactViewController: UIViewController {
     
-    var contacts: [NSManagedObject] = []
+    var context: NSManagedObjectContext {
+        let application = UIApplication.shared
+        let appDelegate = application.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        return context
+    }
+    
+    // MARK: UI
     
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -100,15 +112,6 @@ final class AddContactViewController: UIViewController {
         return stack
     }()
     
-    private lazy var saveButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Save New Contact", for: .normal)
-        button.addTarget(self, action: #selector(saveTapped), for: .touchUpInside)
-        button.setTitleColor(.systemBlue, for: .normal)
-        return button
-    }()
-    
     private lazy var verticalStack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -118,6 +121,19 @@ final class AddContactViewController: UIViewController {
         stack.spacing = 8
         return stack
     }()
+    
+    // MARK: Init
+    
+    private let mode: ContactViewMode
+    
+    init(mode: ContactViewMode) {
+        self.mode = mode
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     func setUpUI() {
         
@@ -148,37 +164,71 @@ final class AddContactViewController: UIViewController {
         verticalStack.addArrangedSubview(phoneNumberField)
         verticalStack.addArrangedSubview(emailField)
         verticalStack.addArrangedSubview(horizontalStack)
-        verticalStack.addArrangedSubview(saveButton)
         horizontalStack.addArrangedSubview(birthDateLabel)
         horizontalStack.addArrangedSubview(birthDatePicker)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Add New Contact"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
         setUpUI()
+        configure()
     }
     
+    func configure() {
+        switch mode {
+        case .add:
+            title = "Add New Contact"
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(createContact))
+            
+        case .edit(let contact):
+            title = "Edit Contact"
+            show(contact: contact)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveContact))
+        }
+    }
     
-    @objc func saveTapped() {
-        let application = UIApplication.shared
-        guard let appDelegate = application.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "Contact", in: managedContext)!
-        let contact = NSManagedObject(entity: entity, insertInto: managedContext)
-        contact.setValue(UUID(), forKey: "contactId")
-        contact.setValue(nameField.text, forKey: "firstName")
-        contact.setValue(lastNameField.text, forKey: "lastName")
-//        contact.setValue(userPicure.image, forKey: "userPicture")
-        contact.setValue(emailField.text, forKey: "email")
-        contact.setValue(phoneNumberField.text, forKey: "phoneNumber")
-        contact.setValue(birthDatePicker.date, forKey: "birthDate")
+    @objc func createContact() {
+        
+        let entity = NSEntityDescription.entity(forEntityName: "Contact", in: context)!
+        let contact = Contact(entity: entity, insertInto: context)
+        contact.contactId = UUID()
+        contact.firstName = nameField.text ?? ""
+        contact.lastName = lastNameField.text ?? ""
+        contact.phoneNumber = phoneNumberField.text ?? ""
+        contact.email = emailField.text ?? ""
+        contact.birthDate = birthDatePicker.date
+        
         do {
-            try managedContext.save()
-            contacts.append(contact)
+            try context.save()
         } catch let error as NSError {
             print("Couldn't save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    @objc func saveContact() {
+        print(#function)
+        guard case let ContactViewMode.edit(contact) = mode else { fatalError() }
+        contact.firstName = nameField.text ?? ""
+        contact.lastName = lastNameField.text ?? ""
+        contact.phoneNumber = phoneNumberField.text ?? ""
+        contact.email = emailField.text ?? ""
+        contact.birthDate = birthDatePicker.date
+        
+        do {
+            try context.save()
+        } catch let error as NSError {
+            print("Couldn't save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    func show(contact: Contact) {
+        nameField.text = contact.firstName
+        lastNameField.text = contact.lastName
+//        userPicure.image = UIImage(data: contact.userPicture)
+        emailField.text = contact.email
+        phoneNumberField.text = contact.phoneNumber
+        if let birthDate = contact.birthDate {
+            birthDatePicker.date = birthDate
         }
     }
 }

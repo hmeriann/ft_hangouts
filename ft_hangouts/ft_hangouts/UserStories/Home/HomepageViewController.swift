@@ -17,7 +17,7 @@ final class HomepageViewController: UIViewController {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
         table.dataSource = self
-//        table.delegate = self
+        table.delegate = self
         table.register(HomepageTableViewCell.self, forCellReuseIdentifier: "homepageTableViewCell")
         return table
     }()
@@ -59,7 +59,8 @@ final class HomepageViewController: UIViewController {
     }
     
     @objc func addTapped() {
-        navigationController?.pushViewController(AddContactViewController(), animated: true)
+        let addViewController = AddContactViewController(mode: .add)
+        navigationController?.pushViewController(addViewController, animated: true)
     }
 }
 
@@ -80,11 +81,11 @@ extension HomepageViewController: UITableViewDataSource {
     }
 }
 
-//extension HomepageViewController: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-////        print(contacts[indexPath.row].firstName)
-////        navigationController?.present(DetailsViewController(with: contacts[indexPath.row].firstName), animated: true)
-//        navigationController?.pushViewController(DetailsViewController(with: contacts[indexPath.row]), animated: true)
-//        tableView.deselectRow(at: indexPath, animated: true)
-//    }
-//}
+extension HomepageViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let contact = contacts[indexPath.row]
+        let editViewController = AddContactViewController(mode: .edit(contact))
+        navigationController?.pushViewController(editViewController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
