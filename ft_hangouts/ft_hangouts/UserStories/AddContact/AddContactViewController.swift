@@ -200,6 +200,8 @@ final class AddContactViewController: UIViewController {
         
         do {
             try context.save()
+            navigationController?.popViewController(animated: true)
+
         } catch let error as NSError {
             print("Couldn't save. \(error), \(error.userInfo)")
         }
@@ -216,6 +218,7 @@ final class AddContactViewController: UIViewController {
         
         do {
             try context.save()
+            navigationController?.popViewController(animated: true)
         } catch let error as NSError {
             print("Couldn't save. \(error), \(error.userInfo)")
         }
