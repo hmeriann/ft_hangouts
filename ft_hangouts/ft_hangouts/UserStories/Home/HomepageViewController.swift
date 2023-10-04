@@ -12,6 +12,12 @@ import CoreData
 final class HomepageViewController: UIViewController {
     
     var contacts: [Contact] = []
+    var context: NSManagedObjectContext {
+        let application = UIApplication.shared
+        let appDelegate = application.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        return context
+    }
     
     private lazy var tableView: UITableView = {
         let table = UITableView()
@@ -31,14 +37,11 @@ final class HomepageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
 //        let fetchRequest = NSFetchRequest<Contact>(entityName: "Contact")
         let fs = Contact.fetchRequest()
         
         do {
-            let dbContacts = try managedContext.fetch(fs)
+            let dbContacts = try context.fetch(fs)
             contacts = dbContacts
         } catch let error as NSError {
             print("Couldn't fetch. \(error), \(error.userInfo)")
@@ -78,6 +81,28 @@ extension HomepageViewController: UITableViewDataSource {
         
         cell.configure(with: contact)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        print("indexPath", indexPath)
+        let contactToRemove = contacts[indexPath.row]
+        guard
+            let cell = tableView.cellForRow(at: indexPath),
+            cell.editingStyle == .delete else { return }
+        
+        context.delete(contactToRemove)
+        do {
+            try context.save()
+            
+        } catch let error as NSError {
+            print("Couldn't fetch. \(error), \(error.userInfo)")
+        }
+        contacts.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .automatic)
     }
 }
 
