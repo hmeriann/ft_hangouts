@@ -1,5 +1,5 @@
 //
-//  EmailValidator.swift
+//  UserDataValidator.swift
 //  ft_hangouts
 //
 //  Created by Zuleykha Pavlichenkova on 14.10.2023.
@@ -11,24 +11,31 @@ import Foundation
 enum Patterns {
     case emailValidating
     case phoneValidating
+    case userNameValidating
     
     var pattern: String {
         switch self {
+        case .userNameValidating:
+            return #"^[a-zA-Z-]+$"#
         case .emailValidating:
             return #"^\S+@\S+\.\S+$"#
         case .phoneValidating:
-            return #"^\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}$"#
+            return #"^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$"#
         }
     }
 }
 
 protocol UserDataValidating {
+    func validate(userName: String) -> Bool
     func validate(email: String) -> Bool
     func validate(phone: String) -> Bool
 }
 
 final class UserDataValidator: UserDataValidating {
     
+    func validate(userName: String) -> Bool {
+        return validate(value: userName, pattern: Patterns.userNameValidating.pattern)
+    }
     func validate(email: String) -> Bool {
         return validate(value: email, pattern: Patterns.emailValidating.pattern)
     }

@@ -18,7 +18,7 @@ public class DBContact: NSManagedObject {
 extension DBContact {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<DBContact> {
-        return NSFetchRequest<DBContact>(entityName: "Contact")
+        return NSFetchRequest<DBContact>(entityName: "DBContact")
     }
 
     @NSManaged var contactId: UUID
@@ -29,6 +29,30 @@ extension DBContact {
     @NSManaged var birthDate: Date?
     @NSManaged var email: String?
 
+    static func make(with contact: Contact, context: NSManagedObjectContext) -> DBContact {
+        let entity = NSEntityDescription.entity(forEntityName: "DBContact", in: context)!
+        let dbContact = DBContact(entity: entity, insertInto: context)
+        dbContact.contactId = contact.contactId
+        dbContact.firstName = contact.firstName
+        dbContact.lastName = contact.lastName
+        dbContact.phoneNumber = contact.phoneNumber
+        dbContact.email = contact.email
+        dbContact.birthDate = contact.birthDate
+        dbContact.userPicture = contact.userPicture
+        
+        return dbContact
+    }
+    func toEntity() -> Contact {
+        Contact(
+            contactId: contactId,
+            firstName: firstName,
+            lastName: lastName,
+            phoneNumber: phoneNumber,
+            userPicture: userPicture,
+            birthDate: birthDate,
+            email: email)
+    }
+    
 }
 
 extension DBContact : Identifiable {

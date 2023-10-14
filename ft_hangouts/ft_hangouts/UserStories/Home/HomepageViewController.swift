@@ -11,7 +11,7 @@ import CoreData
 
 final class HomepageViewController: UIViewController {
     
-    var contacts: [Contact] = []
+    var contacts: [DBContact] = []
     var context: NSManagedObjectContext {
         let application = UIApplication.shared
         let appDelegate = application.delegate as! AppDelegate
@@ -37,8 +37,8 @@ final class HomepageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-//        let fetchRequest = NSFetchRequest<Contact>(entityName: "Contact")
-        let fs = Contact.fetchRequest()
+//        let fetchRequest = NSFetchRequest<Contact>(entityName: "DBContact")
+        let fs = DBContact.fetchRequest()
         
         do {
             let dbContacts = try context.fetch(fs)

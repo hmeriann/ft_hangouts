@@ -50,7 +50,7 @@ final class HomepageTableViewCell: UITableViewCell {
         ])
     }
 
-    func configure(with contact: Contact) {
+    func configure(with contact: DBContact) {
         guard
             case let name = contact.firstName,
             let lastName = contact.lastName

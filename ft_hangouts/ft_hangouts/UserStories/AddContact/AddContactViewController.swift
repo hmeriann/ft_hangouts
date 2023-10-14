@@ -11,7 +11,7 @@ import CoreData
 
 enum ContactViewMode {
     case add
-    case edit(Contact)
+    case edit(DBContact)
 }
 
 final class AddContactViewController: UIViewController {
@@ -36,7 +36,7 @@ final class AddContactViewController: UIViewController {
         let userpic = UIImageView()
         userpic.translatesAutoresizingMaskIntoConstraints = false
         userpic.contentMode = .scaleAspectFill
-        userpic.layer.cornerRadius = 60
+        userpic.layer.cornerRadius = 75
         userpic.clipsToBounds = true
         userpic.tintColor = .gray
         userpic.image = UIImage(systemName: "person.crop.circle.fill")
@@ -191,12 +191,12 @@ final class AddContactViewController: UIViewController {
         switch mode {
         case .add:
             title = "Add New Contact"
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(createContact))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(addContactTapped))
             
         case .edit(let contact):
             title = "Edit Contact"
-            show(contact: contact)
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveContact))
+            show(dbContact: contact)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveContactAfterEditing))
         }
     }
     
@@ -207,17 +207,92 @@ final class AddContactViewController: UIViewController {
         present(picker, animated: true)
     }
     
-    @objc func createContact() {
+    @objc func addContactTapped() {
+        let validationResult = isEnteredDataValid()
         
-        let entity = NSEntityDescription.entity(forEntityName: "Contact", in: context)!
-        let contact = Contact(entity: entity, insertInto: context)
-        contact.contactId = UUID()
-        contact.firstName = nameField.text ?? ""
-        contact.lastName = lastNameField.text ?? ""
-        contact.phoneNumber = phoneNumberField.text ?? ""
-        contact.email = emailField.text ?? ""
-        contact.birthDate = birthDatePicker.date
-        contact.userPicture = userPicure.image?.pngData()
+        switch validationResult {
+        case .success(let contact):
+            createDBContact(with: contact)
+        case .failure(let errors):
+            showError(errors: errors.errors)
+        }
+    }
+    
+    private func isEnteredDataValid() -> Result<Contact, ValidationError> {
+        
+        var errors: [UserDataValidatingError] = []
+        let validator = UserDataValidator()
+        var validatedUserName: String!
+        var validatedEmail: String!
+        var validatedPhone: String!
+        // check userName
+        if let userName = nameField.text, !userName.isEmpty {
+            if validator.validate(userName: userName) {
+                validatedUserName = userName
+            } else {
+                errors.append(.userNameIsInvalid)
+            }
+        } else {
+            errors.append(.userNameIsEmpty)
+        }
+        // check phone
+        if let phone = phoneNumberField.text, !phone.isEmpty {
+            if validator.validate(phone: phone) {
+                validatedPhone = phone
+            } else {
+                errors.append(.phoneIsInvalid)
+            }
+        } else {
+            errors.append(.phoneIsEmpty)
+        }
+        // check email
+        if let email = emailField.text, !email.isEmpty {
+            if validator.validate(email: email) {
+               validatedEmail = email
+            } else {
+                errors.append(.emailIsInvalid)
+            }
+        } else {
+            errors.append(.emailIsEmpty)
+        }
+        if errors.isEmpty {
+            let newContact = Contact(
+                contactId: UUID(),
+                firstName: validatedUserName,
+                lastName: lastNameField.text,
+                phoneNumber: validatedPhone,
+                userPicture: userPicure.image?.pngData(),
+                birthDate: birthDatePicker.date,
+                email: validatedEmail)
+            print(newContact)
+            return .success(newContact)
+        } else {
+            return .failure(ValidationError(errors: errors))
+        }
+    }
+    
+    private func showError(errors: [UserDataValidatingError]) {
+        var alertMessage: String = ""
+        for error in errors {
+            alertMessage += "\n\(error.message)."
+        }
+        let alert = UIAlertController(
+            title: "Error",
+            message: alertMessage,
+            preferredStyle: .alert
+        )
+        let action = UIAlertAction(
+            title: "OK",
+            style: .cancel,
+            handler: nil
+        )
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func createDBContact(with: Contact) {
+        
+        _ = DBContact.make(with: with, context: context)
         do {
             try context.save()
             navigationController?.popViewController(animated: true)
@@ -227,8 +302,7 @@ final class AddContactViewController: UIViewController {
         }
     }
     
-    @objc func saveContact() {
-        print(#function)
+    @objc func saveContactAfterEditing() {
         guard case let ContactViewMode.edit(contact) = mode else { fatalError() }
         contact.firstName = nameField.text ?? ""
         contact.lastName = lastNameField.text ?? ""
@@ -245,15 +319,15 @@ final class AddContactViewController: UIViewController {
         }
     }
     
-    func show(contact: Contact) {
-        nameField.text = contact.firstName
-        lastNameField.text = contact.lastName
-        if let imageData = contact.userPicture {
+    func show(dbContact: DBContact) {
+        nameField.text = dbContact.firstName
+        lastNameField.text = dbContact.lastName
+        if let imageData = dbContact.userPicture {
             userPicure.image = UIImage(data: imageData)
         }
-        emailField.text = contact.email
-        phoneNumberField.text = contact.phoneNumber
-        if let birthDate = contact.birthDate {
+        emailField.text = dbContact.email
+        phoneNumberField.text = dbContact.phoneNumber
+        if let birthDate = dbContact.birthDate {
             birthDatePicker.date = birthDate
         }
     }
