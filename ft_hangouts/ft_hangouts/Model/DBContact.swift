@@ -1,5 +1,5 @@
 //
-//  Contact+CoreDataProperties.swift
+//  Contact+CoreDataClass.swift
 //  ft_hangouts
 //
 //  Created by Zuleykha Pavlichenkova on 28.09.2023.
@@ -11,10 +11,14 @@ import Foundation
 import CoreData
 
 
-extension Contact {
+public class DBContact: NSManagedObject {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Contact> {
-        return NSFetchRequest<Contact>(entityName: "Contact")
+}
+
+extension DBContact {
+
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<DBContact> {
+        return NSFetchRequest<DBContact>(entityName: "Contact")
     }
 
     @NSManaged var contactId: UUID
@@ -27,6 +31,6 @@ extension Contact {
 
 }
 
-extension Contact : Identifiable {
+extension DBContact : Identifiable {
 
 }
