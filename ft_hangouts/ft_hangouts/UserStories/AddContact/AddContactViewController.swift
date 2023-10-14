@@ -201,7 +201,6 @@ final class AddContactViewController: UIViewController {
     }
     
     @objc func addPictureButtonTapped() {
-        print(#function)
         let picker = UIImagePickerController()
         picker.allowsEditing = true
         picker.delegate = self
@@ -218,8 +217,7 @@ final class AddContactViewController: UIViewController {
         contact.phoneNumber = phoneNumberField.text ?? ""
         contact.email = emailField.text ?? ""
         contact.birthDate = birthDatePicker.date
-//        contact.userPicture = Data(from: <#T##Decoder#>)
-        
+        contact.userPicture = userPicure.image?.pngData()
         do {
             try context.save()
             navigationController?.popViewController(animated: true)
