@@ -43,6 +43,15 @@ final class AddContactViewController: UIViewController {
         return userpic
     }()
     
+    private lazy var addUserPictureButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Add user picture", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.addTarget(self, action: #selector(addPictureButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
     private lazy var nameField: UITextField = {
         let field = UITextField()
         field.translatesAutoresizingMaskIntoConstraints = false
@@ -145,16 +154,20 @@ final class AddContactViewController: UIViewController {
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
         scrollView.addSubview(userPicure)
+        scrollView.addSubview(addUserPictureButton)
         NSLayoutConstraint.activate([
             userPicure.heightAnchor.constraint(equalToConstant: 150),
             userPicure.widthAnchor.constraint(equalToConstant: 150),
             userPicure.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 16),
             userPicure.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            
+            addUserPictureButton.topAnchor.constraint(equalTo: userPicure.bottomAnchor),
+            addUserPictureButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
         ])
         scrollView.addSubview(verticalStack)
         NSLayoutConstraint.activate([
             verticalStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -32),
-            verticalStack.topAnchor.constraint(equalTo: userPicure.bottomAnchor, constant: 16),
+            verticalStack.topAnchor.constraint(equalTo: addUserPictureButton.bottomAnchor, constant: 16),
             verticalStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant:  16),
             verticalStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
             verticalStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16),
@@ -187,6 +200,14 @@ final class AddContactViewController: UIViewController {
         }
     }
     
+    @objc func addPictureButtonTapped() {
+        print(#function)
+        let picker = UIImagePickerController()
+        picker.allowsEditing = true
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+    
     @objc func createContact() {
         
         let entity = NSEntityDescription.entity(forEntityName: "Contact", in: context)!
@@ -197,6 +218,7 @@ final class AddContactViewController: UIViewController {
         contact.phoneNumber = phoneNumberField.text ?? ""
         contact.email = emailField.text ?? ""
         contact.birthDate = birthDatePicker.date
+//        contact.userPicture = Data(from: <#T##Decoder#>)
         
         do {
             try context.save()
@@ -215,6 +237,7 @@ final class AddContactViewController: UIViewController {
         contact.phoneNumber = phoneNumberField.text ?? ""
         contact.email = emailField.text ?? ""
         contact.birthDate = birthDatePicker.date
+        contact.userPicture = userPicure.image?.pngData()
         
         do {
             try context.save()
@@ -227,11 +250,29 @@ final class AddContactViewController: UIViewController {
     func show(contact: Contact) {
         nameField.text = contact.firstName
         lastNameField.text = contact.lastName
-//        userPicure.image = UIImage(data: contact.userPicture)
+        if let imageData = contact.userPicture {
+            userPicure.image = UIImage(data: imageData)
+        }
         emailField.text = contact.email
         phoneNumberField.text = contact.phoneNumber
         if let birthDate = contact.birthDate {
             birthDatePicker.date = birthDate
         }
     }
+}
+
+extension AddContactViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            userPicure.image = selectedImage
+            
+        }
+        picker.dismiss(animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
+    
 }

@@ -7,6 +7,6 @@
         <attribute name="firstName" optional="YES" attributeType="String"/>
         <attribute name="lastName" attributeType="String"/>
         <attribute name="phoneNumber" optional="YES" attributeType="String"/>
-        <attribute name="userPicture" optional="YES" attributeType="Binary"/>
+        <attribute name="userPicture" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
     </entity>
 </model>
