@@ -210,26 +210,21 @@ final class AddContactViewController: UIViewController {
     @objc func addContactTapped() {
         let validationResult = isEnteredDataValid()
         
-        switch validationResult {
-        case .success(let contact):
-            createDBContact(with: contact)
-        case .failure(let errors):
-            showError(errors: errors.errors)
+        if validationResult.isEmpty {
+            createDBContact()
+        } else {
+            showError(errors: validationResult)
         }
     }
     
-    private func isEnteredDataValid() -> Result<Contact, ValidationError> {
+    private func isEnteredDataValid() -> [UserDataValidatingError] {
         
         var errors: [UserDataValidatingError] = []
         let validator = UserDataValidator()
-        var validatedUserName: String!
-        var validatedEmail: String!
-        var validatedPhone: String!
+
         // check userName
         if let userName = nameField.text, !userName.isEmpty {
-            if validator.validate(userName: userName) {
-                validatedUserName = userName
-            } else {
+            if !validator.validate(userName: userName) {
                 errors.append(.userNameIsInvalid)
             }
         } else {
@@ -237,9 +232,7 @@ final class AddContactViewController: UIViewController {
         }
         // check phone
         if let phone = phoneNumberField.text, !phone.isEmpty {
-            if validator.validate(phone: phone) {
-                validatedPhone = phone
-            } else {
+            if !validator.validate(phone: phone) {
                 errors.append(.phoneIsInvalid)
             }
         } else {
@@ -247,28 +240,13 @@ final class AddContactViewController: UIViewController {
         }
         // check email
         if let email = emailField.text, !email.isEmpty {
-            if validator.validate(email: email) {
-               validatedEmail = email
-            } else {
+            if !validator.validate(email: email) {
                 errors.append(.emailIsInvalid)
             }
         } else {
             errors.append(.emailIsEmpty)
         }
-        if errors.isEmpty {
-            let newContact = Contact(
-                contactId: UUID(),
-                firstName: validatedUserName,
-                lastName: lastNameField.text,
-                phoneNumber: validatedPhone,
-                userPicture: userPicure.image?.pngData(),
-                birthDate: birthDatePicker.date,
-                email: validatedEmail)
-            print(newContact)
-            return .success(newContact)
-        } else {
-            return .failure(ValidationError(errors: errors))
-        }
+        return errors
     }
     
     private func showError(errors: [UserDataValidatingError]) {
@@ -290,9 +268,13 @@ final class AddContactViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    private func createDBContact(with: Contact) {
+    private func createDBContact() {
         
-        _ = DBContact.make(with: with, context: context)
+        let entity = NSEntityDescription.entity(forEntityName: "DBContact", in: context)!
+        let dbContact = DBContact(entity: entity, insertInto: context)
+        dbContact.contactId = UUID()
+        setValues(to: dbContact)
+        
         do {
             try context.save()
             navigationController?.popViewController(animated: true)
@@ -303,13 +285,20 @@ final class AddContactViewController: UIViewController {
     }
     
     @objc func saveContactAfterEditing() {
-        guard case let ContactViewMode.edit(contact) = mode else { fatalError() }
-        contact.firstName = nameField.text ?? ""
-        contact.lastName = lastNameField.text ?? ""
-        contact.phoneNumber = phoneNumberField.text ?? ""
-        contact.email = emailField.text ?? ""
-        contact.birthDate = birthDatePicker.date
-        contact.userPicture = userPicure.image?.pngData()
+        
+        let validationResult = isEnteredDataValid()
+        
+        if validationResult.isEmpty {
+            saveUpdatedContact()
+        } else {
+            showError(errors: validationResult)
+        }
+    }
+    
+    private func saveUpdatedContact() {
+        
+        guard case let ContactViewMode.edit(dbContact) = mode else { fatalError() }
+        setValues(to: dbContact)
         
         do {
             try context.save()
@@ -317,6 +306,15 @@ final class AddContactViewController: UIViewController {
         } catch let error as NSError {
             print("Couldn't save. \(error), \(error.userInfo)")
         }
+    }
+    
+    private func setValues(to dbContact: DBContact) {
+        dbContact.firstName = nameField.text ?? ""
+        dbContact.lastName = lastNameField.text ?? ""
+        dbContact.phoneNumber = phoneNumberField.text ?? ""
+        dbContact.email = emailField.text ?? ""
+        dbContact.birthDate = birthDatePicker.date
+        dbContact.userPicture = userPicure.image?.pngData()
     }
     
     func show(dbContact: DBContact) {
