@@ -1,2 +1,2 @@
 # ft_hangouts
-A chat application
+A chat application using MessageUI and ContactsUI
