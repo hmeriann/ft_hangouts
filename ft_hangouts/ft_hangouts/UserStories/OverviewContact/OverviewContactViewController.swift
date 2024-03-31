@@ -110,6 +110,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         stack.axis = .horizontal
         stack.distribution = .equalSpacing
         stack.spacing = 8
+        stack.alignment = .center
         return stack
     }()
     
@@ -155,9 +156,9 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         
         scrollView.addSubview(horizontalStack)
         NSLayoutConstraint.activate([
-            horizontalStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 40),
-            horizontalStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -40),
-            horizontalStack.topAnchor.constraint(equalTo: userPicure.bottomAnchor, constant: 40)
+            horizontalStack.topAnchor.constraint(equalTo: userPicure.bottomAnchor, constant: 40),
+            horizontalStack.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
+            
         
         ])
         horizontalStack.addArrangedSubview(sendMessageButton)
@@ -165,7 +166,6 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         
         scrollView.addSubview(verticalStack)
         NSLayoutConstraint.activate([
-//            verticalStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -32),
             verticalStack.topAnchor.constraint(equalTo: horizontalStack.bottomAnchor, constant: 32),
             verticalStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant:  16),
             verticalStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
