@@ -11,7 +11,6 @@
 		A41B5B602ADAD04900351D19 /* ft_hangoutsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41B5B5F2ADAD04900351D19 /* ft_hangoutsTests.swift */; };
 		A41B5B692ADADACB00351D19 /* UserDataValidatingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41B5B682ADADACB00351D19 /* UserDataValidatingError.swift */; };
 		A4565F902AACD20100C1040B /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4565F8F2AACD20000C1040B /* Launch Screen.storyboard */; };
-		A49FF25A2ABE08D10006A72C /* EditContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49FF2592ABE08D10006A72C /* EditContactViewController.swift */; };
 		A49FF2822AC591300006A72C /* ContactDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A49FF2802AC591300006A72C /* ContactDataModel.xcdatamodeld */; };
 		A49FF28D2AC5E8970006A72C /* DBContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49FF28B2AC5E8970006A72C /* DBContact.swift */; };
 		B596BAA32AAB18D400EA896A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B596BAA22AAB18D400EA896A /* AppDelegate.swift */; };
@@ -19,7 +18,7 @@
 		B596BAAF2AAB18D500EA896A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B596BAAE2AAB18D500EA896A /* Assets.xcassets */; };
 		B596BABF2AAB245E00EA896A /* HomepageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B596BABE2AAB245E00EA896A /* HomepageViewController.swift */; };
 		B596BAC12AAB246C00EA896A /* HomepageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B596BAC02AAB246C00EA896A /* HomepageTableViewCell.swift */; };
-		B5AFF5842AAF2C2900E98BE3 /* AddContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AFF5832AAF2C2900E98BE3 /* AddContactViewController.swift */; };
+		B5AFF5842AAF2C2900E98BE3 /* AddEditContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AFF5832AAF2C2900E98BE3 /* AddEditContactViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +37,6 @@
 		A41B5B5F2ADAD04900351D19 /* ft_hangoutsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ft_hangoutsTests.swift; sourceTree = "<group>"; };
 		A41B5B682ADADACB00351D19 /* UserDataValidatingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataValidatingError.swift; sourceTree = "<group>"; };
 		A4565F8F2AACD20000C1040B /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		A49FF2592ABE08D10006A72C /* EditContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditContactViewController.swift; sourceTree = "<group>"; };
 		A49FF2812AC591300006A72C /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		A49FF28B2AC5E8970006A72C /* DBContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBContact.swift; sourceTree = "<group>"; };
 		B596BA9F2AAB18D400EA896A /* ft_hangouts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ft_hangouts.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,7 +46,7 @@
 		B596BAB32AAB18D500EA896A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B596BABE2AAB245E00EA896A /* HomepageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageViewController.swift; sourceTree = "<group>"; };
 		B596BAC02AAB246C00EA896A /* HomepageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageTableViewCell.swift; sourceTree = "<group>"; };
-		B5AFF5832AAF2C2900E98BE3 /* AddContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactViewController.swift; sourceTree = "<group>"; };
+		B5AFF5832AAF2C2900E98BE3 /* AddEditContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditContactViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,14 +84,6 @@
 			path = ft_hangoutsTests;
 			sourceTree = "<group>";
 		};
-		A49FF2582ABE08AF0006A72C /* EditContact */ = {
-			isa = PBXGroup;
-			children = (
-				A49FF2592ABE08D10006A72C /* EditContactViewController.swift */,
-			);
-			path = EditContact;
-			sourceTree = "<group>";
-		};
 		B596BA962AAB18D400EA896A = {
 			isa = PBXGroup;
 			children = (
@@ -129,8 +119,7 @@
 		B596BAB92AAB21DD00EA896A /* UserStories */ = {
 			isa = PBXGroup;
 			children = (
-				A49FF2582ABE08AF0006A72C /* EditContact */,
-				B5AFF5822AAF2C0C00E98BE3 /* AddContact */,
+				B5AFF5822AAF2C0C00E98BE3 /* AddEditContact */,
 				B596BABD2AAB244900EA896A /* Home */,
 				B596BABA2AAB21FD00EA896A /* Details */,
 			);
@@ -154,12 +143,12 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
-		B5AFF5822AAF2C0C00E98BE3 /* AddContact */ = {
+		B5AFF5822AAF2C0C00E98BE3 /* AddEditContact */ = {
 			isa = PBXGroup;
 			children = (
-				B5AFF5832AAF2C2900E98BE3 /* AddContactViewController.swift */,
+				B5AFF5832AAF2C2900E98BE3 /* AddEditContactViewController.swift */,
 			);
-			path = AddContact;
+			path = AddEditContact;
 			sourceTree = "<group>";
 		};
 		B5E4B9162AB1C57C008E20B2 /* Model */ = {
@@ -284,8 +273,7 @@
 				B596BAA72AAB18D400EA896A /* DetailsViewController.swift in Sources */,
 				B596BAA32AAB18D400EA896A /* AppDelegate.swift in Sources */,
 				A49FF2822AC591300006A72C /* ContactDataModel.xcdatamodeld in Sources */,
-				A49FF25A2ABE08D10006A72C /* EditContactViewController.swift in Sources */,
-				B5AFF5842AAF2C2900E98BE3 /* AddContactViewController.swift in Sources */,
+				B5AFF5842AAF2C2900E98BE3 /* AddEditContactViewController.swift in Sources */,
 				A41B5B582ADACF5D00351D19 /* UserDataValidator.swift in Sources */,
 				A49FF28D2AC5E8970006A72C /* DBContact.swift in Sources */,
 				A41B5B692ADADACB00351D19 /* UserDataValidatingError.swift in Sources */,

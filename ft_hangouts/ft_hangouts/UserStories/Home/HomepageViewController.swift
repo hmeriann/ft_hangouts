@@ -62,7 +62,7 @@ final class HomepageViewController: UIViewController {
     }
     
     @objc func addTapped() {
-        let addViewController = AddContactViewController(mode: .add)
+        let addViewController = AddEditContactViewController(mode: .add)
         navigationController?.pushViewController(addViewController, animated: true)
     }
 }
@@ -109,7 +109,7 @@ extension HomepageViewController: UITableViewDataSource {
 extension HomepageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let contact = contacts[indexPath.row]
-        let editViewController = AddContactViewController(mode: .edit(contact))
+        let editViewController = AddEditContactViewController(mode: .edit(contact))
         navigationController?.pushViewController(editViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }

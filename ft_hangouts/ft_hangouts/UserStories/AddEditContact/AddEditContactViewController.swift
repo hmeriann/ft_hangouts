@@ -1,5 +1,5 @@
 //
-//  AddContactViewController.swift
+//  AddEditContactViewController.swift
 //  ft_hangouts
 //
 //  Created by Heidi Merianne on 9/11/23.
@@ -8,14 +8,19 @@
 
 import UIKit
 import CoreData
+import MessageUI
+import ContactsUI
 
 enum ContactViewMode {
     case add
     case edit(DBContact)
 }
 
-final class AddContactViewController: UIViewController {
+final class AddEditContactViewController: UIViewController {
     
+    
+    
+    // MARK: CoreData variable
     var context: NSManagedObjectContext {
         let application = UIApplication.shared
         let appDelegate = application.delegate as! AppDelegate
@@ -331,7 +336,7 @@ final class AddContactViewController: UIViewController {
     }
 }
 
-extension AddContactViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension AddEditContactViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
