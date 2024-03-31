@@ -66,7 +66,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
     }()
     
     private lazy var sendMessageButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         let boldConfig = UIImage.SymbolConfiguration(weight: .bold)
         let boldMessage = UIImage(systemName: "message", withConfiguration: boldConfig)
         button.setTitleColor(.systemBlue, for: .normal)
@@ -74,13 +74,13 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         button.setImage(boldMessage, for: .normal)
         return button
     }()
-
+    
     private lazy var makeCallButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         let boldConfig = UIImage.SymbolConfiguration(weight: .bold)
         let boldMessage = UIImage(systemName: "phone", withConfiguration: boldConfig)
         button.setTitleColor(.systemBlue, for: .normal)
-        button.setTitle(" Call", for: .normal)
+        button.setTitle(" Make a call", for: .normal)
         button.setImage(boldMessage, for: .normal)
         return button
     }()
@@ -152,22 +152,26 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
             userPicure.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 16),
             userPicure.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
         ])
+        
+        scrollView.addSubview(horizontalStack)
+        NSLayoutConstraint.activate([
+            horizontalStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 40),
+            horizontalStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -40),
+            horizontalStack.topAnchor.constraint(equalTo: userPicure.bottomAnchor, constant: 40)
+        
+        ])
+        horizontalStack.addArrangedSubview(sendMessageButton)
+        horizontalStack.addArrangedSubview(makeCallButton)
+        
         scrollView.addSubview(verticalStack)
         NSLayoutConstraint.activate([
 //            verticalStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -32),
-            verticalStack.topAnchor.constraint(equalTo: userPicure.bottomAnchor, constant: 32),
+            verticalStack.topAnchor.constraint(equalTo: horizontalStack.bottomAnchor, constant: 32),
             verticalStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant:  16),
             verticalStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
             verticalStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16),
         ])
         
-        verticalStack.addArrangedSubview(horizontalStack)
-        NSLayoutConstraint.activate([
-            horizontalStack.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        
-        ])
-        horizontalStack.addArrangedSubview(sendMessageButton)
-        horizontalStack.addArrangedSubview(makeCallButton)
         verticalStack.addArrangedSubview(nameLabel)
         verticalStack.addArrangedSubview(phoneNumberLabel)
     }
