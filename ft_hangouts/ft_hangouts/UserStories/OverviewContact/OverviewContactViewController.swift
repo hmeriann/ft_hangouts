@@ -12,14 +12,9 @@ import MessageUI
 import ContactsUI
 
 final class OverviewContactViewController: UIViewController, MFMessageComposeViewControllerDelegate, CNContactViewControllerDelegate {
-    
-    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-        
-    }
-    
-    
-    // MARK: , MFMessageComposeViewControllerDelegate, CNContactViewControllerDelegate variables
-    
+
+    // MARK: MFMessageComposeViewControllerDelegate, CNContactViewControllerDelegate variables
+    let store = CNContactStore()
     
     // MARK: CoreData variable
     var context: NSManagedObjectContext {
@@ -72,6 +67,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         button.setTitleColor(.systemBlue, for: .normal)
         button.setTitle(" Send message", for: .normal)
         button.setImage(boldMessage, for: .normal)
+        button.addTarget(self, action: #selector(sendMessagePressed), for: .touchUpInside)
         return button
     }()
     
@@ -82,6 +78,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         button.setTitleColor(.systemBlue, for: .normal)
         button.setTitle(" Make a call", for: .normal)
         button.setImage(boldMessage, for: .normal)
+        button.addTarget(self, action: #selector(makeACallPressed), for: .touchUpInside)
         return button
     }()
 
@@ -90,7 +87,6 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 20)
         label.textColor = .black
-        
         return label
     }()
 
@@ -106,11 +102,9 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
     private lazy var horizontalStack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
-//        stack.alignment = .center
         stack.axis = .horizontal
         stack.distribution = .equalSpacing
         stack.spacing = 8
-        stack.alignment = .center
         return stack
     }()
     
@@ -158,8 +152,6 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         NSLayoutConstraint.activate([
             horizontalStack.topAnchor.constraint(equalTo: userPicure.bottomAnchor, constant: 40),
             horizontalStack.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
-            
-        
         ])
         horizontalStack.addArrangedSubview(sendMessageButton)
         horizontalStack.addArrangedSubview(makeCallButton)
@@ -176,6 +168,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         verticalStack.addArrangedSubview(phoneNumberLabel)
     }
     
+    //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
@@ -196,6 +189,46 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
             phoneNumberLabel.text = phoneNumber
         }
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(onEditTapped))
+    }
+    
+    
+    // MARK: Buttons Actions
+    @objc func onEditTapped() {
+        let editViewController = AddEditContactViewController(mode: .edit(contact))
+        navigationController?.pushViewController(editViewController, animated: true)
+    }
+    
+    @objc func sendMessagePressed() {
+        print("sendMessagePressed")
+        if !MFMessageComposeViewController.canSendText() {
+            print("SMS services are not available.")
+        }
+        let composeVC = MFMessageComposeViewController()
+        composeVC.messageComposeDelegate = self
+        
+        composeVC.recipients = ["+\(phoneNumberLabel.text!)"]
+        composeVC.body = ""
+        self.present(composeVC, animated: true, completion: nil)
+    }
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController,
+                                      didFinishWith result: MessageComposeResult) {
+        // Check the result or perform other tasks.
+        
+        // Dismiss the message compose view controller.
+        controller.dismiss(animated: true, completion: nil)}
+
+
+
+    
+    @objc func makeACallPressed() {
+        print("makeACallPressed")
+        if let url = URL(string: "tel://" + phoneNumberLabel.text!) {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+        print("Call to: \(phoneNumberLabel.text!)")
     }
 }
