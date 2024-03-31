@@ -10,7 +10,6 @@
 		A41B5B582ADACF5D00351D19 /* UserDataValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41B5B572ADACF5D00351D19 /* UserDataValidator.swift */; };
 		A41B5B602ADAD04900351D19 /* ft_hangoutsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41B5B5F2ADAD04900351D19 /* ft_hangoutsTests.swift */; };
 		A41B5B692ADADACB00351D19 /* UserDataValidatingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41B5B682ADADACB00351D19 /* UserDataValidatingError.swift */; };
-		A41B5B6B2ADAF1C500351D19 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41B5B6A2ADAF1C500351D19 /* Contact.swift */; };
 		A4565F902AACD20100C1040B /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4565F8F2AACD20000C1040B /* Launch Screen.storyboard */; };
 		A49FF25A2ABE08D10006A72C /* EditContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49FF2592ABE08D10006A72C /* EditContactViewController.swift */; };
 		A49FF2822AC591300006A72C /* ContactDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A49FF2802AC591300006A72C /* ContactDataModel.xcdatamodeld */; };
@@ -38,7 +37,6 @@
 		A41B5B5D2ADAD04900351D19 /* ft_hangoutsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ft_hangoutsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A41B5B5F2ADAD04900351D19 /* ft_hangoutsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ft_hangoutsTests.swift; sourceTree = "<group>"; };
 		A41B5B682ADADACB00351D19 /* UserDataValidatingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataValidatingError.swift; sourceTree = "<group>"; };
-		A41B5B6A2ADAF1C500351D19 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		A4565F8F2AACD20000C1040B /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		A49FF2592ABE08D10006A72C /* EditContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditContactViewController.swift; sourceTree = "<group>"; };
 		A49FF2812AC591300006A72C /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
@@ -169,7 +167,6 @@
 			children = (
 				A49FF28B2AC5E8970006A72C /* DBContact.swift */,
 				A49FF2802AC591300006A72C /* ContactDataModel.xcdatamodeld */,
-				A41B5B6A2ADAF1C500351D19 /* Contact.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -289,7 +286,6 @@
 				A49FF2822AC591300006A72C /* ContactDataModel.xcdatamodeld in Sources */,
 				A49FF25A2ABE08D10006A72C /* EditContactViewController.swift in Sources */,
 				B5AFF5842AAF2C2900E98BE3 /* AddContactViewController.swift in Sources */,
-				A41B5B6B2ADAF1C500351D19 /* Contact.swift in Sources */,
 				A41B5B582ADACF5D00351D19 /* UserDataValidator.swift in Sources */,
 				A49FF28D2AC5E8970006A72C /* DBContact.swift in Sources */,
 				A41B5B692ADADACB00351D19 /* UserDataValidatingError.swift in Sources */,
