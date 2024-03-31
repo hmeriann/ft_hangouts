@@ -109,8 +109,11 @@ extension HomepageViewController: UITableViewDataSource {
 extension HomepageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let contact = contacts[indexPath.row]
-        let editViewController = AddEditContactViewController(mode: .edit(contact))
-        navigationController?.pushViewController(editViewController, animated: true)
+        
+        let overviewContact = OverviewContactViewController(for: contact)
+        navigationController?.pushViewController(overviewContact, animated: true)
+//        let editViewController = AddEditContactViewController(mode: .edit(contact))
+//        navigationController?.pushViewController(editViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

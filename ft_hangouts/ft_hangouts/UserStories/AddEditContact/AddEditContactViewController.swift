@@ -8,8 +8,6 @@
 
 import UIKit
 import CoreData
-import MessageUI
-import ContactsUI
 
 enum ContactViewMode {
     case add
@@ -17,8 +15,6 @@ enum ContactViewMode {
 }
 
 final class AddEditContactViewController: UIViewController {
-    
-    
     
     // MARK: CoreData variable
     var context: NSManagedObjectContext {
@@ -136,6 +132,15 @@ final class AddEditContactViewController: UIViewController {
         return stack
     }()
     
+    private lazy var sendMessageButton: UIButton = {
+        let button = UIButton()
+        let boldConfig = UIImage.SymbolConfiguration(weight: .bold)
+        let boldMessage = UIImage(systemName: "phone", withConfiguration: boldConfig)
+        button.setTitle("send message", for: .normal)
+        button.setImage(boldMessage, for: .normal)
+        return button
+    }()
+    
     // MARK: Init
     
     private let mode: ContactViewMode
@@ -202,6 +207,7 @@ final class AddEditContactViewController: UIViewController {
             title = "Edit Contact"
             show(dbContact: contact)
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveContactAfterEditing))
+            
         }
     }
     

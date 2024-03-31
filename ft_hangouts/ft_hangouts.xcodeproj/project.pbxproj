@@ -13,6 +13,7 @@
 		A4565F902AACD20100C1040B /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4565F8F2AACD20000C1040B /* Launch Screen.storyboard */; };
 		A49FF2822AC591300006A72C /* ContactDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A49FF2802AC591300006A72C /* ContactDataModel.xcdatamodeld */; };
 		A49FF28D2AC5E8970006A72C /* DBContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49FF28B2AC5E8970006A72C /* DBContact.swift */; };
+		A4D5A2002BB9A35300C4A42F /* OverviewContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D5A1FF2BB9A35300C4A42F /* OverviewContactViewController.swift */; };
 		B596BAA32AAB18D400EA896A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B596BAA22AAB18D400EA896A /* AppDelegate.swift */; };
 		B596BAA72AAB18D400EA896A /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B596BAA62AAB18D400EA896A /* DetailsViewController.swift */; };
 		B596BAAF2AAB18D500EA896A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B596BAAE2AAB18D500EA896A /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 		A4565F8F2AACD20000C1040B /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		A49FF2812AC591300006A72C /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		A49FF28B2AC5E8970006A72C /* DBContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBContact.swift; sourceTree = "<group>"; };
+		A4D5A1FF2BB9A35300C4A42F /* OverviewContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewContactViewController.swift; sourceTree = "<group>"; };
 		B596BA9F2AAB18D400EA896A /* ft_hangouts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ft_hangouts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B596BAA22AAB18D400EA896A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B596BAA62AAB18D400EA896A /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
@@ -84,6 +86,14 @@
 			path = ft_hangoutsTests;
 			sourceTree = "<group>";
 		};
+		A4D5A1FE2BB9A33500C4A42F /* OverviewContact */ = {
+			isa = PBXGroup;
+			children = (
+				A4D5A1FF2BB9A35300C4A42F /* OverviewContactViewController.swift */,
+			);
+			path = OverviewContact;
+			sourceTree = "<group>";
+		};
 		B596BA962AAB18D400EA896A = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +129,7 @@
 		B596BAB92AAB21DD00EA896A /* UserStories */ = {
 			isa = PBXGroup;
 			children = (
+				A4D5A1FE2BB9A33500C4A42F /* OverviewContact */,
 				B5AFF5822AAF2C0C00E98BE3 /* AddEditContact */,
 				B596BABD2AAB244900EA896A /* Home */,
 				B596BABA2AAB21FD00EA896A /* Details */,
@@ -206,7 +217,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1530;
 				ORGANIZATIONNAME = "Zuleykha Pavlichenkova";
 				TargetAttributes = {
 					A41B5B5C2ADAD04900351D19 = {
@@ -270,6 +281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B596BABF2AAB245E00EA896A /* HomepageViewController.swift in Sources */,
+				A4D5A2002BB9A35300C4A42F /* OverviewContactViewController.swift in Sources */,
 				B596BAA72AAB18D400EA896A /* DetailsViewController.swift in Sources */,
 				B596BAA32AAB18D400EA896A /* AppDelegate.swift in Sources */,
 				A49FF2822AC591300006A72C /* ContactDataModel.xcdatamodeld in Sources */,
@@ -300,6 +312,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 5XJD2AR6K6;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -327,6 +340,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 5XJD2AR6K6;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -397,7 +411,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -453,7 +467,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
