@@ -214,8 +214,6 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
     
     func messageComposeViewController(_ controller: MFMessageComposeViewController,
                                       didFinishWith result: MessageComposeResult) {
-        // Check the result or perform other tasks.
-        
         // Dismiss the message compose view controller.
         controller.dismiss(animated: true, completion: nil)}
 

@@ -342,6 +342,7 @@ final class AddEditContactViewController: UIViewController {
     }
 }
 
+// MARK: - Image Picker Delegate Methods
 extension AddEditContactViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {

@@ -11,6 +11,26 @@ import CoreData
 
 final class HomepageTableViewCell: UITableViewCell {
         
+    private lazy var userPicure: UIImageView = {
+        let userpic = UIImageView()
+        userpic.translatesAutoresizingMaskIntoConstraints = false
+        userpic.contentMode = .scaleAspectFill
+        userpic.layer.cornerRadius = 17
+        userpic.clipsToBounds = true
+        userpic.tintColor = .gray
+        userpic.image = UIImage(systemName: "person.crop.circle.fill")
+        return userpic
+    }()
+    
+    private lazy var verticalStack: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.distribution = .equalSpacing
+        stack.spacing = 8
+        return stack
+    }()
+    
     private lazy var fullNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -35,19 +55,23 @@ final class HomepageTableViewCell: UITableViewCell {
     }
     
     func setUpUI() {
-        contentView.addSubview(fullNameLabel)
+        contentView.addSubview(userPicure)
         NSLayoutConstraint.activate([
-            fullNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            fullNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            fullNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            userPicure.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            userPicure.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            userPicure.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+            userPicure.widthAnchor.constraint(equalToConstant: 51),
+            userPicure.heightAnchor.constraint(equalToConstant: 51)
         ])
-        contentView.addSubview(phoneNumberLabel)
+        contentView.addSubview(verticalStack)
         NSLayoutConstraint.activate([
-            phoneNumberLabel.topAnchor.constraint(equalTo: fullNameLabel.bottomAnchor, constant: 8),
-            phoneNumberLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            phoneNumberLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            phoneNumberLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            verticalStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            verticalStack.leadingAnchor.constraint(equalTo: userPicure.trailingAnchor, constant: 24),
+            verticalStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            verticalStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ])
+        verticalStack.addArrangedSubview(fullNameLabel)
+        verticalStack.addArrangedSubview(phoneNumberLabel)
     }
 
     func configure(with contact: DBContact) {
