@@ -15,7 +15,7 @@ final class HomepageTableViewCell: UITableViewCell {
         let userpic = UIImageView()
         userpic.translatesAutoresizingMaskIntoConstraints = false
         userpic.contentMode = .scaleAspectFill
-        userpic.layer.cornerRadius = 17
+        userpic.layer.cornerRadius = 25
         userpic.clipsToBounds = true
         userpic.tintColor = .gray
         userpic.image = UIImage(systemName: "person.crop.circle.fill")
@@ -60,8 +60,8 @@ final class HomepageTableViewCell: UITableViewCell {
             userPicure.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             userPicure.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             userPicure.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
-            userPicure.widthAnchor.constraint(equalToConstant: 51),
-            userPicure.heightAnchor.constraint(equalToConstant: 51)
+            userPicure.widthAnchor.constraint(equalToConstant: 50),
+            userPicure.heightAnchor.constraint(equalToConstant: 50)
         ])
         contentView.addSubview(verticalStack)
         NSLayoutConstraint.activate([
@@ -79,7 +79,9 @@ final class HomepageTableViewCell: UITableViewCell {
             case let name = contact.firstName,
             let lastName = contact.lastName
         else { return }
-        
+        if let imageData = contact.userPicture {
+            userPicure.image = UIImage(data: imageData)
+        }
         fullNameLabel.text = name + " " + lastName
         phoneNumberLabel.text = contact.phoneNumber
     }

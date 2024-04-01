@@ -175,20 +175,23 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         configure(with: contact)
     }
     
-    func configure(with contact: DBContact) {
+    override func viewWillAppear(_ animated: Bool) {
         guard
             case let name = contact.firstName,
             let lastName = contact.lastName
         else { return }
         
+        nameLabel.text = name + " " + lastName
         if let imageData = contact.userPicture {
             userPicure.image = UIImage(data: imageData)
         }
-        nameLabel.text = name + " " + lastName
         if let phoneNumber = contact.phoneNumber {
             phoneNumberLabel.text = phoneNumber
         }
-        
+    }
+    
+    func configure(with contact: DBContact) {
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(onEditTapped))
     }
     
