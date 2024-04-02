@@ -118,6 +118,17 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         return stack
     }()
     
+    private lazy var deleteButton: UIButton = {
+        let button = UIButton(type: .system)
+        let boldConfig = UIImage.SymbolConfiguration(weight: .bold)
+        let boldMessage = UIImage(systemName: "trash", withConfiguration: boldConfig)
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.setTitle(" Delete contact", for: .normal)
+        button.setImage(boldMessage, for: .normal)
+        button.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
+        return button
+    }()
+    
     // MARK: Init
     
     private let contact: DBContact
@@ -161,21 +172,29 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
             verticalStack.topAnchor.constraint(equalTo: horizontalStack.bottomAnchor, constant: 32),
             verticalStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant:  16),
             verticalStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
-            verticalStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16),
+            verticalStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16)
         ])
         
         verticalStack.addArrangedSubview(nameLabel)
         verticalStack.addArrangedSubview(phoneNumberLabel)
+
+        verticalStack.addArrangedSubview(deleteButton)
+        NSLayoutConstraint.activate([
+            deleteButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
+        ])
     }
     
     //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        configure(with: contact)
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        configure(with: contact)
+    }
+    
+    func configure(with contact: DBContact) {
         guard
             case let name = contact.firstName,
             let lastName = contact.lastName
@@ -188,10 +207,6 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         if let phoneNumber = contact.phoneNumber {
             phoneNumberLabel.text = phoneNumber
         }
-    }
-    
-    func configure(with contact: DBContact) {
-
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(onEditTapped))
     }
     
@@ -220,8 +235,6 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         // Dismiss the message compose view controller.
         controller.dismiss(animated: true, completion: nil)}
 
-
-
     
     @objc func makeACallPressed() {
         print("makeACallPressed")
@@ -232,4 +245,9 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         }
         print("Call to: \(phoneNumberLabel.text!)")
     }
+    
+    @objc func deleteButtonPressed() {
+        print("Delete contact \"\(contact.firstName)\" pressed.")
+    }
+    
 }
