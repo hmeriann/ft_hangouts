@@ -30,7 +30,7 @@ final class HomepageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "ft_hangouts"
+        title = String(localized: "ft_hangouts")
         setUpUI()
     }
     
@@ -88,7 +88,6 @@ extension HomepageViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        print("indexPath", indexPath)
         let contactToRemove = contacts[indexPath.row]
         guard
             let cell = tableView.cellForRow(at: indexPath),
@@ -112,8 +111,6 @@ extension HomepageViewController: UITableViewDelegate {
         
         let overviewContact = OverviewContactViewController(for: contact)
         navigationController?.pushViewController(overviewContact, animated: true)
-//        let editViewController = AddEditContactViewController(mode: .edit(contact))
-//        navigationController?.pushViewController(editViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

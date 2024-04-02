@@ -65,7 +65,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         let boldConfig = UIImage.SymbolConfiguration(weight: .bold)
         let boldMessage = UIImage(systemName: "message", withConfiguration: boldConfig)
         button.setTitleColor(.systemBlue, for: .normal)
-        button.setTitle(" Send message", for: .normal)
+        button.setTitle(String(localized: " Send message"), for: .normal)
         button.setImage(boldMessage, for: .normal)
         button.addTarget(self, action: #selector(sendMessagePressed), for: .touchUpInside)
         return button
@@ -76,7 +76,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         let boldConfig = UIImage.SymbolConfiguration(weight: .bold)
         let boldMessage = UIImage(systemName: "phone", withConfiguration: boldConfig)
         button.setTitleColor(.systemBlue, for: .normal)
-        button.setTitle(" Make a call", for: .normal)
+        button.setTitle(String(localized: " Make a call"), for: .normal)
         button.setImage(boldMessage, for: .normal)
         button.addTarget(self, action: #selector(makeACallPressed), for: .touchUpInside)
         return button
@@ -93,7 +93,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
     private lazy var birthDateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Birth date"
+        label.text = String(localized: "Birth date")
         label.font = .systemFont(ofSize: 24)
         label.textColor = .systemGray
         return label
@@ -123,7 +123,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         let boldConfig = UIImage.SymbolConfiguration(weight: .bold)
         let boldMessage = UIImage(systemName: "trash", withConfiguration: boldConfig)
         button.setTitleColor(.systemBlue, for: .normal)
-        button.setTitle(" Delete contact", for: .normal)
+        button.setTitle(String(localized: " Delete contact"), for: .normal)
         button.setImage(boldMessage, for: .normal)
         button.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
         return button
@@ -218,7 +218,6 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
     }
     
     @objc func sendMessagePressed() {
-        print("sendMessagePressed")
         if !MFMessageComposeViewController.canSendText() {
             print("SMS services are not available.")
         }
@@ -237,31 +236,27 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
 
     
     @objc func makeACallPressed() {
-        print("makeACallPressed")
         if let url = URL(string: "tel://" + phoneNumberLabel.text!) {
             if UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }
-        print("Call to: \(phoneNumberLabel.text!)")
     }
     
     @objc func deleteButtonPressed() {
-        print("Delete contact \"\(contact.firstName)\" pressed.")
         showConfirmation()
     }
     
     private func showConfirmation() {
         let alert = UIAlertController(
             title: "",
-            message: "Delete \(contact.firstName) immediately.",
+            message: String(localized: "Delete immediately - \(contact.firstName)"),
             preferredStyle: .alert
         )
         let deleteAction = UIAlertAction(
-            title: "Delete",
+            title: String(localized: "Delete"),
             style: .default,
             handler: {_ in
-                print("DELETE CONFIRMED")
                 self.context.delete(self.contact)
                 do {
                     try self.context.save()
@@ -273,7 +268,8 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         )
         
         let cancelAction = UIAlertAction(
-            title: "Cancel",
+//            title: "Cancel",
+            title: String(localized: "Cancel"),
             style: .cancel,
             handler: nil
         )

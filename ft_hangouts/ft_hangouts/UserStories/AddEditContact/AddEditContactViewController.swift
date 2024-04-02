@@ -47,7 +47,7 @@ final class AddEditContactViewController: UIViewController {
     private lazy var addUserPictureButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Add user picture", for: .normal)
+        button.setTitle(String(localized: "Add user picture"), for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
         button.addTarget(self, action: #selector(addPictureButtonTapped), for: .touchUpInside)
         return button
@@ -58,7 +58,7 @@ final class AddEditContactViewController: UIViewController {
         field.translatesAutoresizingMaskIntoConstraints = false
         field.font = .systemFont(ofSize: 24)
         field.borderStyle = .roundedRect
-        field.placeholder = "First name"
+        field.placeholder = String(localized: "First name")
         field.clearButtonMode = .whileEditing
         return field
     }()
@@ -68,7 +68,7 @@ final class AddEditContactViewController: UIViewController {
         field.translatesAutoresizingMaskIntoConstraints = false
         field.font = .systemFont(ofSize: 24)
         field.borderStyle = .roundedRect
-        field.placeholder = "Last name"
+        field.placeholder = String(localized: "Last name")
         field.clearButtonMode = .whileEditing
 
         return field
@@ -79,7 +79,7 @@ final class AddEditContactViewController: UIViewController {
         field.translatesAutoresizingMaskIntoConstraints = false
         field.font = .systemFont(ofSize: 24)
         field.borderStyle = .roundedRect
-        field.placeholder = "Phone number"
+        field.placeholder = String(localized: "Phone number")
         field.clearButtonMode = .whileEditing
 
         return field
@@ -90,7 +90,7 @@ final class AddEditContactViewController: UIViewController {
         field.translatesAutoresizingMaskIntoConstraints = false
         field.font = .systemFont(ofSize: 24)
         field.borderStyle = .roundedRect
-        field.placeholder = "Email"
+        field.placeholder = String(localized: "Email")
         field.clearButtonMode = .whileEditing
         return field
     }()
@@ -106,7 +106,7 @@ final class AddEditContactViewController: UIViewController {
     private lazy var birthDateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Birth date"
+        label.text = String(localized: "Birth date")
         label.font = .systemFont(ofSize: 24)
         label.textColor = .systemGray
         return label
@@ -130,15 +130,6 @@ final class AddEditContactViewController: UIViewController {
         stack.distribution = .equalSpacing
         stack.spacing = 8
         return stack
-    }()
-    
-    private lazy var sendMessageButton: UIButton = {
-        let button = UIButton()
-        let boldConfig = UIImage.SymbolConfiguration(weight: .bold)
-        let boldMessage = UIImage(systemName: "phone", withConfiguration: boldConfig)
-        button.setTitle("send message", for: .normal)
-        button.setImage(boldMessage, for: .normal)
-        return button
     }()
     
     // MARK: Init
@@ -200,11 +191,11 @@ final class AddEditContactViewController: UIViewController {
     func configure() {
         switch mode {
         case .add:
-            title = "Add New Contact"
+            title = String(localized: "Add New Contact")
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(addContactTapped))
             
         case .edit(let contact):
-            title = "Edit Contact"
+            title = String(localized: "Edit Contact")
             show(dbContact: contact)
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveContactAfterEditing))
             
@@ -266,7 +257,7 @@ final class AddEditContactViewController: UIViewController {
             alertMessage += "\n\(error.message)."
         }
         let alert = UIAlertController(
-            title: "Error",
+            title: String(localized: "Error"),
             message: alertMessage,
             preferredStyle: .alert
         )
