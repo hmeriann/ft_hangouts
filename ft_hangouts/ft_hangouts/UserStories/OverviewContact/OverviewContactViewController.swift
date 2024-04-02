@@ -248,6 +248,37 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
     
     @objc func deleteButtonPressed() {
         print("Delete contact \"\(contact.firstName)\" pressed.")
+        showConfirmation()
     }
     
+    private func showConfirmation() {
+        let alert = UIAlertController(
+            title: "",
+            message: "Delete \(contact.firstName) immediately.",
+            preferredStyle: .alert
+        )
+        let deleteAction = UIAlertAction(
+            title: "Delete",
+            style: .default,
+            handler: {_ in
+                print("DELETE CONFIRMED")
+                self.context.delete(self.contact)
+                do {
+                    try self.context.save()
+                } catch {
+                    print("Couldn't delete the contact. \(error)")
+                }
+                self.navigationController?.popViewController(animated: true)
+            }
+        )
+        
+        let cancelAction = UIAlertAction(
+            title: "Cancel",
+            style: .cancel,
+            handler: nil
+        )
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
 }
