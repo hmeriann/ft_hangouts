@@ -57,11 +57,10 @@ final class HomepageTableViewCell: UITableViewCell {
     func setUpUI() {
         contentView.addSubview(userPicure)
         NSLayoutConstraint.activate([
+            userPicure.widthAnchor.constraint(equalToConstant: 50),
+            userPicure.heightAnchor.constraint(equalToConstant: 50),
             userPicure.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             userPicure.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            userPicure.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
-            userPicure.widthAnchor.constraint(equalToConstant: 50),
-            userPicure.heightAnchor.constraint(equalToConstant: 50)
         ])
         contentView.addSubview(verticalStack)
         NSLayoutConstraint.activate([
