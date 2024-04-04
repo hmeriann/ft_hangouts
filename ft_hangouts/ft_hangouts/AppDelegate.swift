@@ -13,6 +13,7 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var setBackgroundTime: Date?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let window = UIWindow()
@@ -30,6 +31,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    // MARK: - Application Lifecycle Methods
+    func applicationWillResignActive(_ application: UIApplication) {
+        setBackgroundTime = Date()
+    }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        if setBackgroundTime != nil {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "H:mm:ss"
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()) {
+                
+                let alertTitle = String(localized: "App in a background from: ")
+                let alert = UIAlertController(
+                    title: alertTitle,
+                    message: dateFormatter.string(from: self.setBackgroundTime!),
+                    preferredStyle: .alert)
+                let actionOk = UIAlertAction(title: "Ok", style: .default)
+                alert.addAction(actionOk)
+                self.window?.rootViewController?.present(alert, animated: true)
+                self.setBackgroundTime = nil
+            }
+        }
+    }
 
     // MARK: - Core Data stack
 

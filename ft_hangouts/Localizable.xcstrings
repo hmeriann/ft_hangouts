@@ -56,6 +56,17 @@
         }
       }
     },
+    "App in a background from: " : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение не активно с: "
+          }
+        }
+      }
+    },
     "Birth date" : {
       "extractionState" : "manual",
       "localizations" : {
