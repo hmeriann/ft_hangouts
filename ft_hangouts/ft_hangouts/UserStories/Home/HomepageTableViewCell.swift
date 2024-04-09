@@ -55,6 +55,7 @@ final class HomepageTableViewCell: UITableViewCell {
     }
     
     func setUpUI() {
+        contentView.backgroundColor = .tertiarySystemBackground
         contentView.addSubview(userPicure)
         NSLayoutConstraint.activate([
             userPicure.widthAnchor.constraint(equalToConstant: 50),

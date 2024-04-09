@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let window = UIWindow()
         let navigationViewController = UINavigationController()
         let viewController = HomepageViewController()
-        window.backgroundColor = .white
+        window.backgroundColor = .systemBackground
         window.rootViewController = navigationViewController
         navigationViewController.viewControllers = [viewController]
         

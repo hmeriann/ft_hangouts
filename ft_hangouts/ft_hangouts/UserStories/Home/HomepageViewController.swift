@@ -20,11 +20,12 @@ final class HomepageViewController: UIViewController {
     }
     
     private lazy var tableView: UITableView = {
-        let table = UITableView()
+        let table = UITableView(frame: .zero, style: .insetGrouped)
         table.translatesAutoresizingMaskIntoConstraints = false
         table.dataSource = self
         table.delegate = self
         table.register(HomepageTableViewCell.self, forCellReuseIdentifier: "homepageTableViewCell")
+        table.backgroundColor = .secondarySystemBackground
         return table
     }()
     
