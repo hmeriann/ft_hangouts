@@ -30,6 +30,7 @@ final class AddEditContactViewController: UIViewController {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isScrollEnabled = true
+        view.backgroundColor = .secondarySystemBackground
         return view
     }()
     
@@ -39,7 +40,7 @@ final class AddEditContactViewController: UIViewController {
         userpic.contentMode = .scaleAspectFill
         userpic.layer.cornerRadius = 75
         userpic.clipsToBounds = true
-        userpic.tintColor = .gray
+        userpic.tintColor = .tertiarySystemBackground
         userpic.image = UIImage(systemName: "person.crop.circle.fill")
         return userpic
     }()
@@ -58,6 +59,8 @@ final class AddEditContactViewController: UIViewController {
         field.translatesAutoresizingMaskIntoConstraints = false
         field.font = .systemFont(ofSize: 24)
         field.borderStyle = .roundedRect
+        field.backgroundColor = .tertiarySystemBackground
+        field.textColor = .tertiaryLabel
         field.placeholder = String(localized: "First name")
         field.clearButtonMode = .whileEditing
         return field
@@ -68,6 +71,8 @@ final class AddEditContactViewController: UIViewController {
         field.translatesAutoresizingMaskIntoConstraints = false
         field.font = .systemFont(ofSize: 24)
         field.borderStyle = .roundedRect
+        field.backgroundColor = .tertiarySystemBackground
+        field.textColor = .tertiaryLabel
         field.placeholder = String(localized: "Last name")
         field.clearButtonMode = .whileEditing
 
@@ -79,6 +84,8 @@ final class AddEditContactViewController: UIViewController {
         field.translatesAutoresizingMaskIntoConstraints = false
         field.font = .systemFont(ofSize: 24)
         field.borderStyle = .roundedRect
+        field.backgroundColor = .tertiarySystemBackground
+        field.textColor = .tertiaryLabel
         field.placeholder = String(localized: "Phone number")
         field.clearButtonMode = .whileEditing
 
@@ -90,6 +97,8 @@ final class AddEditContactViewController: UIViewController {
         field.translatesAutoresizingMaskIntoConstraints = false
         field.font = .systemFont(ofSize: 24)
         field.borderStyle = .roundedRect
+        field.backgroundColor = .tertiarySystemBackground
+        field.textColor = .tertiaryLabel
         field.placeholder = String(localized: "Email")
         field.clearButtonMode = .whileEditing
         return field
@@ -108,14 +117,13 @@ final class AddEditContactViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = String(localized: "Birth date")
         label.font = .systemFont(ofSize: 24)
-        label.textColor = .systemGray
+        label.textColor = .tertiaryLabel
         return label
     }()
     
     private lazy var horizontalStack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
-//        stack.alignment = .center
         stack.axis = .horizontal
         stack.distribution = .equalSpacing
         stack.spacing = 8
@@ -132,8 +140,7 @@ final class AddEditContactViewController: UIViewController {
         return stack
     }()
     
-    // MARK: Init
-    
+    // MARK: - Init
     private let mode: ContactViewMode
     
     init(mode: ContactViewMode) {
@@ -167,11 +174,11 @@ final class AddEditContactViewController: UIViewController {
         ])
         scrollView.addSubview(verticalStack)
         NSLayoutConstraint.activate([
-            verticalStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -32),
-            verticalStack.topAnchor.constraint(equalTo: addUserPictureButton.bottomAnchor, constant: 16),
-            verticalStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant:  16),
-            verticalStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
-            verticalStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16),
+            verticalStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -48),
+            verticalStack.topAnchor.constraint(equalTo: addUserPictureButton.bottomAnchor, constant: 24),
+            verticalStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant:  24),
+            verticalStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -24),
+            verticalStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -24),
         ])
         verticalStack.addArrangedSubview(nameField)
         verticalStack.addArrangedSubview(lastNameField)
@@ -198,7 +205,6 @@ final class AddEditContactViewController: UIViewController {
             title = String(localized: "Edit Contact")
             show(dbContact: contact)
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveContactAfterEditing))
-            
         }
     }
     
