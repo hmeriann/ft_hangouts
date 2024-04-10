@@ -30,7 +30,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isScrollEnabled = true
-        view.backgroundColor = .secondarySystemBackground
+//        view.backgroundColor = .secondarySystemBackground
         return view
     }()
     
@@ -147,7 +147,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         NSLayoutConstraint.activate([
             userPicure.heightAnchor.constraint(equalToConstant: 150),
             userPicure.widthAnchor.constraint(equalToConstant: 150),
-            userPicure.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 16),
+            userPicure.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 32),
             userPicure.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
         ])
         
@@ -162,9 +162,9 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         scrollView.addSubview(verticalStack)
         NSLayoutConstraint.activate([
             verticalStack.topAnchor.constraint(equalTo: horizontalStack.bottomAnchor, constant: 32),
-            verticalStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant:  16),
-            verticalStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
-            verticalStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16)
+            verticalStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant:  32),
+            verticalStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -32),
+            verticalStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -32)
         ])
         
         verticalStack.addArrangedSubview(nameLabel)
@@ -172,7 +172,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
 
         verticalStack.addArrangedSubview(deleteButton)
         NSLayoutConstraint.activate([
-            deleteButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
+            deleteButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
         ])
     }
     
