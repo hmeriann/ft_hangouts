@@ -32,6 +32,7 @@ final class HomepageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = String(localized: "ft_hangouts")
+        
         setUpUI()
     }
     
@@ -152,10 +153,12 @@ extension HomepageViewController: UITableViewDelegate {
 }
 
 extension HomepageViewController: UIColorPickerViewControllerDelegate {
-    func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
+    func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
         let selectedColor = viewController.selectedColor
         
         print("\(selectedColor)")
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: selectedColor]
+
         dismiss(animated: true)
     }
 }
