@@ -30,7 +30,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isScrollEnabled = true
-//        view.backgroundColor = .secondarySystemBackground
+        view.backgroundColor = .secondarySystemBackground
         return view
     }()
     
