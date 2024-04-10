@@ -53,6 +53,13 @@ final class HomepageViewController: UIViewController {
     func setUpUI() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
         
+        let setColorImage = UIImage(systemName: "paintbrush.fill")
+        let setHeaderColorButton = UIButton(type: .system)
+        setHeaderColorButton.setImage(setColorImage, for: .normal)
+        setHeaderColorButton.addTarget(self, action: #selector(setHeaderColorTapped), for: .touchUpInside)
+        let setColorBarButtonItem = UIBarButtonItem(customView: setHeaderColorButton)
+        navigationItem.leftBarButtonItem = setColorBarButtonItem
+        
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
@@ -65,6 +72,34 @@ final class HomepageViewController: UIViewController {
     @objc func addTapped() {
         let addViewController = AddEditContactViewController(mode: .add)
         navigationController?.pushViewController(addViewController, animated: true)
+    }
+    
+    @objc func setHeaderColorTapped() {
+        
+        presentColorPicker()
+        
+        let alert = UIAlertController(title: "Choose new color for header", message: nil, preferredStyle: .actionSheet)
+        let colorPicker = UIColorPickerViewController()
+        colorPicker.title = String(localized: "Choose new color for header")
+        colorPicker.supportsAlpha = false
+        colorPicker.delegate = self
+        alert.addChild(colorPicker)
+        
+        if let popoverController = alert.popoverPresentationController {
+                popoverController.barButtonItem = self.navigationItem.rightBarButtonItem
+            }
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func presentColorPicker() {
+        let colorPicker = UIColorPickerViewController()
+        colorPicker.title = "Background Color"
+        colorPicker.supportsAlpha = false
+        colorPicker.delegate = self
+        colorPicker.modalPresentationStyle = .popover
+        colorPicker.popoverPresentationController?.sourceItem = self.navigationItem.rightBarButtonItem
+        self.present(colorPicker, animated: true)
     }
 }
 
@@ -113,5 +148,14 @@ extension HomepageViewController: UITableViewDelegate {
         let overviewContact = OverviewContactViewController(for: contact)
         navigationController?.pushViewController(overviewContact, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension HomepageViewController: UIColorPickerViewControllerDelegate {
+    func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
+        let selectedColor = viewController.selectedColor
+        
+        print("\(selectedColor)")
+        dismiss(animated: true)
     }
 }
