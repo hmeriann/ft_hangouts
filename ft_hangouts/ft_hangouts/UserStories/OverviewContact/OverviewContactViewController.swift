@@ -30,6 +30,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isScrollEnabled = true
+        view.backgroundColor = .secondarySystemBackground
         return view
     }()
     
@@ -39,7 +40,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         userpic.contentMode = .scaleAspectFill
         userpic.layer.cornerRadius = 75
         userpic.clipsToBounds = true
-        userpic.tintColor = .gray
+        userpic.tintColor = .secondarySystemBackground
         userpic.image = UIImage(systemName: "person.crop.circle.fill")
         return userpic
     }()
@@ -48,7 +49,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 24)
-        
+        label.textColor = .label
         return label
     }()
     
@@ -56,7 +57,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 24)
-
+        label.textColor = .label
         return label
     }()
     
@@ -86,16 +87,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 20)
-        label.textColor = .black
-        return label
-    }()
-
-    private lazy var birthDateLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = String(localized: "Birth date")
-        label.font = .systemFont(ofSize: 24)
-        label.textColor = .systemGray
+        label.textColor = .secondaryLabel
         return label
     }()
     
@@ -129,8 +121,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         return button
     }()
     
-    // MARK: Init
-    
+    // MARK: - Init
     private let contact: DBContact
     
     init(for contact: DBContact) {
@@ -142,6 +133,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Set Up UI
     func setUpUI() {
         
         view.addSubview(scrollView)
@@ -210,8 +202,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(onEditTapped))
     }
     
-    
-    // MARK: Buttons Actions
+    // MARK: - Buttons Actions
     @objc func onEditTapped() {
         let editViewController = AddEditContactViewController(mode: .edit(contact))
         navigationController?.pushViewController(editViewController, animated: true)
