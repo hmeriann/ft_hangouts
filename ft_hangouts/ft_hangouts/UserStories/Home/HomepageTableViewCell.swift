@@ -35,6 +35,14 @@ final class HomepageTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 20, weight: .bold)
+        let dynamicColor = UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            if traitCollection.userInterfaceStyle == .dark {
+                return .systemMint
+            } else {
+                return .label
+            }
+        }
+        label.textColor = dynamicColor
         return label
     }()
     
@@ -42,6 +50,15 @@ final class HomepageTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 14, weight: .light)
+        
+        let dynamicColor = UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            if traitCollection.userInterfaceStyle == .dark {
+                return .label
+            } else {
+                return .systemPurple
+            }
+        }
+        label.textColor = dynamicColor
         return label
     }()
     
