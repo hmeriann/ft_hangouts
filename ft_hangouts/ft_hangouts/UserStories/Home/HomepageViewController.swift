@@ -33,6 +33,12 @@ final class HomepageViewController: UIViewController {
         super.viewDidLoad()
         title = String(localized: "ft_hangouts")
         
+        // Retrieve the color from User Defaults
+        if let retrievedColor = getColorFromUserDefaults(key: "selectedColorKey") {
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: retrievedColor]
+        } else {
+            print("Color not found in UserDefaults.")
+        }
         setUpUI()
     }
     
@@ -152,13 +158,44 @@ extension HomepageViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - Setting a Header Color
 extension HomepageViewController: UIColorPickerViewControllerDelegate {
     func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
+        
         let selectedColor = viewController.selectedColor
-        print("\(selectedColor)")
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: selectedColor]
+        
+        saveColorToUserDefaults(color: selectedColor, key: "selectedColorKey")
         
         dismiss(animated: true)
     }
     
+    // Save the selected color to UserDefaults
+    func saveColorToUserDefaults(color: UIColor, key: String) {
+        if let colorData = color.toData() {
+            UserDefaults.standard.set(colorData, forKey: key)
+        }
+    }
+
+    // Retrieve the color from UserDefaults
+    func getColorFromUserDefaults(key: String) -> UIColor? {
+        if let colorData = UserDefaults.standard.data(forKey: key) {
+            return colorData.toColor()
+        }
+        return nil
+    }
+}
+
+// Extension to convert UIColor to Data
+extension UIColor {
+    func toData() -> Data? {
+        return try! NSKeyedArchiver.archivedData(withRootObject: self, requiringSecureCoding: false)
+    }
+}
+
+// Extension to convert Data to UIColor
+extension Data {
+    func toColor() -> UIColor? {
+        return try! NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: self)
+    }
 }
