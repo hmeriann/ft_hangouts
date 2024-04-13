@@ -13,6 +13,10 @@ import ContactsUI
 
 final class OverviewContactViewController: UIViewController, MFMessageComposeViewControllerDelegate, CNContactViewControllerDelegate {
 
+    private let profileHeaderView = ProfileHeaderView()
+    private let mainStackView = UIStackView()
+    private let scrollView = UIScrollView()
+    
     // MARK: MFMessageComposeViewControllerDelegate, CNContactViewControllerDelegate variables
     let store = CNContactStore()
     
@@ -25,14 +29,13 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
     }
     
     // MARK: UI
-    
-    private lazy var scrollView: UIScrollView = {
-        let view = UIScrollView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.isScrollEnabled = true
-        view.backgroundColor = .secondarySystemBackground
-        return view
-    }()
+//    private lazy var scrollView: UIScrollView = {
+//        let view = UIScrollView()
+//        view.translatesAutoresizingMaskIntoConstraints = false
+//        view.isScrollEnabled = true
+//        view.backgroundColor = .secondarySystemBackground
+//        return view
+//    }()
     
     private lazy var userPicure: UIImageView = {
         let userpic = UIImageView()
@@ -134,51 +137,72 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
     }
     
     // MARK: - Set Up UI
-    func setUpUI() {
-        
+    
+    private func setUpProfileHeaderView() {
+        mainStackView.addArrangedSubview(profileHeaderView)
+        profileHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            profileHeaderView.heightAnchor.constraint(equalToConstant: 300),
+        ])
+    }
+    
+    private func setupScrollView() {
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.frameLayoutGuide.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.frameLayoutGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.frameLayoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
-        scrollView.addSubview(userPicure)
+    }
+    
+    func setUpUI() {
+        mainStackView.axis = .vertical
+        mainStackView.distribution = .equalSpacing
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        scrollView.addSubview(mainStackView)
         NSLayoutConstraint.activate([
-            userPicure.heightAnchor.constraint(equalToConstant: 150),
-            userPicure.widthAnchor.constraint(equalToConstant: 150),
-            userPicure.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 32),
-            userPicure.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
+            mainStackView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            mainStackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
         ])
         
-        scrollView.addSubview(horizontalStack)
-        NSLayoutConstraint.activate([
-            horizontalStack.topAnchor.constraint(equalTo: userPicure.bottomAnchor, constant: 40),
-            horizontalStack.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
-        ])
-        horizontalStack.addArrangedSubview(sendMessageButton)
-        horizontalStack.addArrangedSubview(makeCallButton)
-        
-        scrollView.addSubview(verticalStack)
-        NSLayoutConstraint.activate([
-            verticalStack.topAnchor.constraint(equalTo: horizontalStack.bottomAnchor, constant: 32),
-            verticalStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant:  32),
-            verticalStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -32),
-            verticalStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -32)
-        ])
-        
-        verticalStack.addArrangedSubview(nameLabel)
-        verticalStack.addArrangedSubview(phoneNumberLabel)
-
-        verticalStack.addArrangedSubview(deleteButton)
-        NSLayoutConstraint.activate([
-            deleteButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-        ])
+        setUpProfileHeaderView()
+//        
+//        
+//        scrollView.addSubview(horizontalStack)
+//        NSLayoutConstraint.activate([
+//            horizontalStack.topAnchor.constraint(equalTo: profileHeaderView.bottomAnchor, constant: 40),
+//            horizontalStack.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
+//        ])
+//        horizontalStack.addArrangedSubview(sendMessageButton)
+//        horizontalStack.addArrangedSubview(makeCallButton)
+//        
+//        scrollView.addSubview(verticalStack)
+//        NSLayoutConstraint.activate([
+//            verticalStack.topAnchor.constraint(equalTo: horizontalStack.bottomAnchor, constant: 32),
+//            verticalStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant:  32),
+//            verticalStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -32),
+//            verticalStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -32)
+//        ])
+//        
+//        verticalStack.addArrangedSubview(nameLabel)
+//        verticalStack.addArrangedSubview(phoneNumberLabel)
+//
+//        verticalStack.addArrangedSubview(deleteButton)
+//        NSLayoutConstraint.activate([
+//            deleteButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+//        ])
     }
     
     //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupScrollView()
         setUpUI()
     }
     
