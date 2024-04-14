@@ -13,6 +13,7 @@ import ContactsUI
 
 final class OverviewContactViewController: UIViewController, MFMessageComposeViewControllerDelegate, CNContactViewControllerDelegate {
 
+    private let contact: DBContact
     private let profileHeaderView = ProfileHeaderView()
     private let mainStackView = UIStackView()
     private let scrollView = UIScrollView()
@@ -117,7 +118,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         let button = UIButton(type: .system)
         let boldConfig = UIImage.SymbolConfiguration(weight: .bold)
         let boldMessage = UIImage(systemName: "trash", withConfiguration: boldConfig)
-        button.setTitleColor(.systemBlue, for: .normal)
+        button.setTitleColor(.systemRed, for: .normal)
         button.setTitle(String(localized: " Delete contact"), for: .normal)
         button.setImage(boldMessage, for: .normal)
         button.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
@@ -125,8 +126,6 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
     }()
     
     // MARK: - Init
-    private let contact: DBContact
-    
     init(for contact: DBContact) {
         self.contact = contact
         super.init(nibName: nil, bundle: nil)
@@ -140,6 +139,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
     
     private func setUpProfileHeaderView() {
         mainStackView.addArrangedSubview(profileHeaderView)
+        
         profileHeaderView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             profileHeaderView.heightAnchor.constraint(equalToConstant: 300),
@@ -174,14 +174,14 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         setUpProfileHeaderView()
 //        
 //        
-//        scrollView.addSubview(horizontalStack)
-//        NSLayoutConstraint.activate([
-//            horizontalStack.topAnchor.constraint(equalTo: profileHeaderView.bottomAnchor, constant: 40),
-//            horizontalStack.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
-//        ])
-//        horizontalStack.addArrangedSubview(sendMessageButton)
-//        horizontalStack.addArrangedSubview(makeCallButton)
-//        
+        mainStackView.addSubview(horizontalStack)
+        NSLayoutConstraint.activate([
+            horizontalStack.topAnchor.constraint(equalTo: profileHeaderView.bottomAnchor, constant: 16),
+            horizontalStack.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
+        ])
+        horizontalStack.addArrangedSubview(sendMessageButton)
+        horizontalStack.addArrangedSubview(makeCallButton)
+//
 //        scrollView.addSubview(verticalStack)
 //        NSLayoutConstraint.activate([
 //            verticalStack.topAnchor.constraint(equalTo: horizontalStack.bottomAnchor, constant: 32),
@@ -189,14 +189,14 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
 //            verticalStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -32),
 //            verticalStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -32)
 //        ])
-//        
-//        verticalStack.addArrangedSubview(nameLabel)
-//        verticalStack.addArrangedSubview(phoneNumberLabel)
 //
-//        verticalStack.addArrangedSubview(deleteButton)
-//        NSLayoutConstraint.activate([
-//            deleteButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-//        ])
+        mainStackView.addArrangedSubview(phoneNumberLabel)
+
+        mainStackView.addArrangedSubview(deleteButton)
+        NSLayoutConstraint.activate([
+            deleteButton.topAnchor.constraint(equalTo: horizontalStack.bottomAnchor, constant: 24),
+            deleteButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+        ])
     }
     
     //MARK: - viewDidLoad
@@ -216,7 +216,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
             let lastName = contact.lastName
         else { return }
         
-        nameLabel.text = name + " " + lastName
+        profileHeaderView.profileNameLabel.text = name + " " + lastName
         if let imageData = contact.userPicture {
             userPicure.image = UIImage(data: imageData)
         }
@@ -270,7 +270,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         )
         let deleteAction = UIAlertAction(
             title: String(localized: "Delete"),
-            style: .default,
+            style: .destructive,
             handler: {_ in
                 self.context.delete(self.contact)
                 do {
