@@ -116,11 +116,8 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
     
     private lazy var deleteButton: UIButton = {
         let button = UIButton(type: .system)
-        let boldConfig = UIImage.SymbolConfiguration(weight: .bold)
-        let boldMessage = UIImage(systemName: "trash", withConfiguration: boldConfig)
         button.setTitleColor(.systemRed, for: .normal)
         button.setTitle(String(localized: " Delete contact"), for: .normal)
-        button.setImage(boldMessage, for: .normal)
         button.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
         return button
     }()
