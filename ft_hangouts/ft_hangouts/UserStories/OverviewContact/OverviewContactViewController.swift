@@ -12,59 +12,34 @@ import MessageUI
 import ContactsUI
 
 final class OverviewContactViewController: UIViewController, MFMessageComposeViewControllerDelegate, CNContactViewControllerDelegate {
-
-    private let contact: DBContact
-    private let profileHeaderView = ProfileHeaderView()
-    private let mainStackView = UIStackView()
-    private let scrollView = UIScrollView()
-    
-    // MARK: MFMessageComposeViewControllerDelegate, CNContactViewControllerDelegate variables
-    let store = CNContactStore()
-    
-    // MARK: CoreData variable
-    var context: NSManagedObjectContext {
-        let application = UIApplication.shared
-        let appDelegate = application.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        return context
-    }
     
     // MARK: UI
-//    private lazy var scrollView: UIScrollView = {
-//        let view = UIScrollView()
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        view.isScrollEnabled = true
-//        view.backgroundColor = .secondarySystemBackground
-//        return view
-//    }()
-    
-    private lazy var userPicure: UIImageView = {
-        let userpic = UIImageView()
-        userpic.translatesAutoresizingMaskIntoConstraints = false
-        userpic.contentMode = .scaleAspectFill
-        userpic.layer.cornerRadius = 75
-        userpic.clipsToBounds = true
-        userpic.tintColor = .secondarySystemBackground
-        userpic.image = UIImage(systemName: "person.crop.circle.fill")
-        return userpic
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    private lazy var mainStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = 16
+        return stackView
     }()
     
-    private lazy var nameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 24)
-        label.textColor = .label
-        return label
-    }()
+    private let profileHeaderView = ProfileHeaderView()
     
-    private lazy var lastNameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 24)
-        label.textColor = .label
-        return label
+    // Buttons
+    private lazy var buttonsStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.distribution = .equalSpacing
+        stack.spacing = 16
+        return stack
     }()
-    
     private lazy var sendMessageButton: UIButton = {
         let button = UIButton(type: .system)
         let boldConfig = UIImage.SymbolConfiguration(weight: .bold)
@@ -75,7 +50,6 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         button.addTarget(self, action: #selector(sendMessagePressed), for: .touchUpInside)
         return button
     }()
-    
     private lazy var makeCallButton: UIButton = {
         let button = UIButton(type: .system)
         let boldConfig = UIImage.SymbolConfiguration(weight: .bold)
@@ -86,6 +60,13 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         button.addTarget(self, action: #selector(makeACallPressed), for: .touchUpInside)
         return button
     }()
+    
+    // Phone number
+    private lazy var phoneNumberView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     private lazy var phoneNumberLabel: UILabel = {
         let label = UILabel()
@@ -95,25 +76,6 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         return label
     }()
     
-    private lazy var horizontalStack: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .horizontal
-        stack.distribution = .equalSpacing
-        stack.spacing = 8
-        return stack
-    }()
-    
-    private lazy var verticalStack: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.alignment = .fill
-        stack.axis = .vertical
-        stack.distribution = .equalSpacing
-        stack.spacing = 8
-        return stack
-    }()
-    
     private lazy var deleteButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitleColor(.systemRed, for: .normal)
@@ -121,6 +83,18 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         button.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
         return button
     }()
+    
+    private let contact: DBContact
+    // MARK: MFMessageComposeViewControllerDelegate, CNContactViewControllerDelegate variables
+    private let store = CNContactStore()
+    
+    // MARK: CoreData variable
+    private var context: NSManagedObjectContext {
+        let application = UIApplication.shared
+        let appDelegate = application.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        return context
+    }
     
     // MARK: - Init
     init(for contact: DBContact) {
@@ -132,74 +106,9 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Set Up UI
-    
-    private func setUpProfileHeaderView() {
-        mainStackView.addArrangedSubview(profileHeaderView)
-        
-        profileHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            profileHeaderView.heightAnchor.constraint(equalToConstant: 300),
-        ])
-    }
-    
-    private func setupScrollView() {
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(scrollView)
-        NSLayoutConstraint.activate([
-            scrollView.frameLayoutGuide.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.frameLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.frameLayoutGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.frameLayoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-        ])
-    }
-    
-    func setUpUI() {
-        mainStackView.axis = .vertical
-        mainStackView.distribution = .equalSpacing
-        mainStackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        scrollView.addSubview(mainStackView)
-        NSLayoutConstraint.activate([
-            mainStackView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
-            mainStackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
-        ])
-        
-        setUpProfileHeaderView()
-//        
-//        
-        mainStackView.addSubview(horizontalStack)
-        NSLayoutConstraint.activate([
-            horizontalStack.topAnchor.constraint(equalTo: profileHeaderView.bottomAnchor, constant: 16),
-            horizontalStack.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
-        ])
-        horizontalStack.addArrangedSubview(sendMessageButton)
-        horizontalStack.addArrangedSubview(makeCallButton)
-//
-//        scrollView.addSubview(verticalStack)
-//        NSLayoutConstraint.activate([
-//            verticalStack.topAnchor.constraint(equalTo: horizontalStack.bottomAnchor, constant: 32),
-//            verticalStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant:  32),
-//            verticalStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -32),
-//            verticalStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -32)
-//        ])
-//
-        mainStackView.addArrangedSubview(phoneNumberLabel)
-
-        mainStackView.addArrangedSubview(deleteButton)
-        NSLayoutConstraint.activate([
-            deleteButton.topAnchor.constraint(equalTo: horizontalStack.bottomAnchor, constant: 24),
-            deleteButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-        ])
-    }
-    
-    //MARK: - viewDidLoad
+    //MARK: - View Lyfe cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupScrollView()
         setUpUI()
     }
     
@@ -207,7 +116,72 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         configure(with: contact)
     }
     
-    func configure(with contact: DBContact) {
+    // MARK: - Set Up UI
+    
+    private func setUpUI() {
+        setUpScrollView()
+        setUpMainStackView()
+        setUpProfileHeaderView()
+        setUpButtons()
+        setUpPhoneNumberView()
+        setUpDeleteButton()
+    }
+    
+    private func setUpScrollView() {
+        view.addSubview(scrollView)
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
+    }
+    
+    private func setUpMainStackView() {
+        scrollView.addSubview(mainStackView)
+        NSLayoutConstraint.activate([
+            mainStackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+        ])
+    }
+    
+    private func setUpProfileHeaderView() {
+        mainStackView.addArrangedSubview(profileHeaderView)
+        profileHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            // Why constant?
+            profileHeaderView.heightAnchor.constraint(equalToConstant: 300),
+            // to set the width of the stackView
+            profileHeaderView.widthAnchor.constraint(equalTo: view.widthAnchor)
+        ])
+    }
+    
+    private func setUpButtons() {
+        mainStackView.addArrangedSubview(buttonsStackView)
+        buttonsStackView.addArrangedSubview(sendMessageButton)
+        buttonsStackView.addArrangedSubview(makeCallButton)
+    }
+    
+    private func setUpPhoneNumberView() {
+        mainStackView.addArrangedSubview(phoneNumberView)
+        phoneNumberView.addSubview(phoneNumberLabel)
+        NSLayoutConstraint.activate([
+            phoneNumberLabel.leadingAnchor.constraint(equalTo: phoneNumberView.leadingAnchor, constant: 16),
+            phoneNumberLabel.trailingAnchor.constraint(equalTo: phoneNumberView.trailingAnchor, constant: -16),
+            phoneNumberLabel.topAnchor.constraint(equalTo: phoneNumberView.topAnchor, constant: 16),
+            phoneNumberLabel.bottomAnchor.constraint(equalTo: phoneNumberView.bottomAnchor, constant: -16),
+            
+            phoneNumberView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+        ])
+    }
+    
+    private func setUpDeleteButton() {
+        mainStackView.addArrangedSubview(deleteButton)
+    }
+    
+    private func configure(with contact: DBContact) {
         guard
             case let name = contact.firstName,
             let lastName = contact.lastName
@@ -215,7 +189,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         
         profileHeaderView.profileNameLabel.text = name + " " + lastName
         if let imageData = contact.userPicture {
-            userPicure.image = UIImage(data: imageData)
+            profileHeaderView.userPicure.image = UIImage(data: imageData)
         }
         if let phoneNumber = contact.phoneNumber {
             phoneNumberLabel.text = phoneNumber

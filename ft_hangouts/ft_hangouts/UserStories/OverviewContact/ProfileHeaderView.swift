@@ -14,7 +14,7 @@ final class ProfileHeaderView: UIView {
     private let leftSpacerView = UIView()
     private let rightSpacerView = UIView()
     
-    private lazy var userPicure: UIImageView = {
+    lazy var userPicure: UIImageView = {
         let userpic = UIImageView()
         userpic.translatesAutoresizingMaskIntoConstraints = false
         userpic.contentMode = .scaleAspectFill
