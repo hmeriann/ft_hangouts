@@ -10,10 +10,11 @@ import UIKit
 
 final class ProfileNameLabelView: UILabel {
     // MARK: - Properties
+    
     override var text: String? {
         didSet {
             guard let words = text?.components(separatedBy: .whitespaces) else { return }
-            let joinedWords = words.joined(separator: "\n")
+            let joinedWords = words.joined(separator: " ")
             guard text != joinedWords else { return }
             DispatchQueue.main.async { [weak self] in
                 self?.text = joinedWords
@@ -38,5 +39,4 @@ final class ProfileNameLabelView: UILabel {
         textAlignment = .center
         font = UIFont.boldSystemFont(ofSize: 24)
     }
-    
 }

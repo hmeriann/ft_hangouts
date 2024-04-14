@@ -10,12 +10,11 @@ import UIKit
 
 final class ProfileHeaderView: UIView {
     // MARK: - Properties
-    private let profileNameLabel = ProfileNameLabelView()
-    
+    let profileNameLabel = ProfileNameLabelView()
     private let leftSpacerView = UIView()
     private let rightSpacerView = UIView()
     
-    private lazy var userPicure: UIImageView = {
+    lazy var userPicure: UIImageView = {
         let userpic = UIImageView()
         userpic.translatesAutoresizingMaskIntoConstraints = false
         userpic.contentMode = .scaleAspectFill
@@ -59,7 +58,9 @@ final class ProfileHeaderView: UIView {
             profileStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
             profileStackView.topAnchor.constraint(equalTo: topAnchor, constant: 24),
             userPicure.heightAnchor.constraint(equalToConstant: 150),
-            userPicure.widthAnchor.constraint(equalToConstant: 150)
+            userPicure.widthAnchor.constraint(equalToConstant: 150),
+            userPicure.centerXAnchor.constraint(equalTo: centerXAnchor),
+            profileNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
         
         userPicure.setContentHuggingPriority(UILayoutPriority(251), for: NSLayoutConstraint.Axis.horizontal)
