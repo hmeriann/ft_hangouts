@@ -18,7 +18,6 @@
 		A49FF28D2AC5E8970006A72C /* DBContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49FF28B2AC5E8970006A72C /* DBContact.swift */; };
 		A4D5A2002BB9A35300C4A42F /* OverviewContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D5A1FF2BB9A35300C4A42F /* OverviewContactViewController.swift */; };
 		B596BAA32AAB18D400EA896A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B596BAA22AAB18D400EA896A /* AppDelegate.swift */; };
-		B596BAA72AAB18D400EA896A /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B596BAA62AAB18D400EA896A /* DetailsViewController.swift */; };
 		B596BAAF2AAB18D500EA896A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B596BAAE2AAB18D500EA896A /* Assets.xcassets */; };
 		B596BABF2AAB245E00EA896A /* HomepageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B596BABE2AAB245E00EA896A /* HomepageViewController.swift */; };
 		B596BAC12AAB246C00EA896A /* HomepageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B596BAC02AAB246C00EA896A /* HomepageTableViewCell.swift */; };
@@ -49,7 +48,6 @@
 		A4D5A1FF2BB9A35300C4A42F /* OverviewContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewContactViewController.swift; sourceTree = "<group>"; };
 		B596BA9F2AAB18D400EA896A /* ft_hangouts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ft_hangouts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B596BAA22AAB18D400EA896A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B596BAA62AAB18D400EA896A /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		B596BAAE2AAB18D500EA896A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B596BAB32AAB18D500EA896A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B596BABE2AAB245E00EA896A /* HomepageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageViewController.swift; sourceTree = "<group>"; };
@@ -141,17 +139,8 @@
 				A4D5A1FE2BB9A33500C4A42F /* OverviewContact */,
 				B5AFF5822AAF2C0C00E98BE3 /* AddEditContact */,
 				B596BABD2AAB244900EA896A /* Home */,
-				B596BABA2AAB21FD00EA896A /* Details */,
 			);
 			path = UserStories;
-			sourceTree = "<group>";
-		};
-		B596BABA2AAB21FD00EA896A /* Details */ = {
-			isa = PBXGroup;
-			children = (
-				B596BAA62AAB18D400EA896A /* DetailsViewController.swift */,
-			);
-			path = Details;
 			sourceTree = "<group>";
 		};
 		B596BABD2AAB244900EA896A /* Home */ = {
@@ -293,7 +282,6 @@
 			files = (
 				B596BABF2AAB245E00EA896A /* HomepageViewController.swift in Sources */,
 				A4D5A2002BB9A35300C4A42F /* OverviewContactViewController.swift in Sources */,
-				B596BAA72AAB18D400EA896A /* DetailsViewController.swift in Sources */,
 				B596BAA32AAB18D400EA896A /* AppDelegate.swift in Sources */,
 				A49FF2822AC591300006A72C /* ContactDataModel.xcdatamodeld in Sources */,
 				A420077F2BCABDBD00ACFD67 /* ProfileNameLabelView.swift in Sources */,

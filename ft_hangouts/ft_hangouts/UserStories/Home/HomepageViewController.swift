@@ -44,8 +44,7 @@ final class HomepageViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-//        let fetchRequest = NSFetchRequest<Contact>(entityName: "DBContact")
+
         let fs = DBContact.fetchRequest()
         
         do {

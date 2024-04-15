@@ -37,7 +37,6 @@ final class ProfileHeaderView: UIView {
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        backgroundColor = .tertiarySystemBackground
         setUpStackView()
     }
     
@@ -68,6 +67,5 @@ final class ProfileHeaderView: UIView {
         profileNameLabel.setContentHuggingPriority(UILayoutPriority(251), for: NSLayoutConstraint.Axis.horizontal)
         profileNameLabel.setContentHuggingPriority(UILayoutPriority(251), for: NSLayoutConstraint.Axis.vertical)
         profileNameLabel.contentCompressionResistancePriority(for:  NSLayoutConstraint.Axis.horizontal)
-
     }
 }
