@@ -20,7 +20,6 @@ final class ProfileHeaderView: UIView {
         userpic.contentMode = .scaleAspectFill
         userpic.layer.cornerRadius = 75
         userpic.clipsToBounds = true
-        userpic.tintColor = .systemBackground
         userpic.image = UIImage(systemName: "person.crop.circle.fill")
         return userpic
     }()
@@ -38,7 +37,6 @@ final class ProfileHeaderView: UIView {
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .secondarySystemBackground
         setUpStackView()
     }
     
@@ -69,6 +67,5 @@ final class ProfileHeaderView: UIView {
         profileNameLabel.setContentHuggingPriority(UILayoutPriority(251), for: NSLayoutConstraint.Axis.horizontal)
         profileNameLabel.setContentHuggingPriority(UILayoutPriority(251), for: NSLayoutConstraint.Axis.vertical)
         profileNameLabel.contentCompressionResistancePriority(for:  NSLayoutConstraint.Axis.horizontal)
-
     }
 }
