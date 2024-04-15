@@ -153,9 +153,9 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         scrollView.addSubview(backgroundView)
         NSLayoutConstraint.activate([
             backgroundView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 36),
-            backgroundView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
-            backgroundView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
             backgroundView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16),
+            backgroundView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.9),
+            backgroundView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
         ])
     }
     
@@ -176,8 +176,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
             // Why constant?
             profileHeaderView.heightAnchor.constraint(equalToConstant: 300),
             // to set the width of the stackView
-            profileHeaderView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.9),
-            profileHeaderView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
+            profileHeaderView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
         ])
     }
     
