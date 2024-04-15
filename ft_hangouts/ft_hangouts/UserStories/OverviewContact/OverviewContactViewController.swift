@@ -25,7 +25,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 15
-        view.backgroundColor = .secondarySystemBackground
+        view.backgroundColor = .tertiarySystemBackground
         
         return view
     }()
