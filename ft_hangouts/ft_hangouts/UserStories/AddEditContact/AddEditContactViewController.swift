@@ -34,13 +34,22 @@ final class AddEditContactViewController: UIViewController {
         return view
     }()
     
+    private lazy var backgroundView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 15
+        view.backgroundColor = .tertiarySystemBackground
+        
+        return view
+    }()
+    
     private lazy var userPicure: UIImageView = {
         let userpic = UIImageView()
         userpic.translatesAutoresizingMaskIntoConstraints = false
         userpic.contentMode = .scaleAspectFill
         userpic.layer.cornerRadius = 75
         userpic.clipsToBounds = true
-        userpic.tintColor = .tertiarySystemBackground
+        userpic.tintColor = .secondarySystemBackground
         userpic.image = UIImage(systemName: "person.crop.circle.fill")
         return userpic
     }()
@@ -57,10 +66,10 @@ final class AddEditContactViewController: UIViewController {
     private lazy var nameField: UITextField = {
         let field = UITextField()
         field.translatesAutoresizingMaskIntoConstraints = false
-        field.font = .systemFont(ofSize: 24)
+        field.font = .systemFont(ofSize: 20)
         field.borderStyle = .roundedRect
-        field.backgroundColor = .tertiarySystemBackground
-        field.textColor = .tertiaryLabel
+        field.backgroundColor = .secondarySystemBackground
+        field.textColor = .secondaryLabel
         field.placeholder = String(localized: "First name")
         field.clearButtonMode = .whileEditing
         return field
@@ -69,10 +78,10 @@ final class AddEditContactViewController: UIViewController {
     private lazy var lastNameField: UITextField = {
         let field = UITextField()
         field.translatesAutoresizingMaskIntoConstraints = false
-        field.font = .systemFont(ofSize: 24)
+        field.font = .systemFont(ofSize: 20)
         field.borderStyle = .roundedRect
-        field.backgroundColor = .tertiarySystemBackground
-        field.textColor = .tertiaryLabel
+        field.backgroundColor = .secondarySystemBackground
+        field.textColor = .secondaryLabel
         field.placeholder = String(localized: "Last name")
         field.clearButtonMode = .whileEditing
 
@@ -82,10 +91,10 @@ final class AddEditContactViewController: UIViewController {
     private lazy var phoneNumberField: UITextField = {
         let field = UITextField()
         field.translatesAutoresizingMaskIntoConstraints = false
-        field.font = .systemFont(ofSize: 24)
+        field.font = .systemFont(ofSize: 20)
         field.borderStyle = .roundedRect
-        field.backgroundColor = .tertiarySystemBackground
-        field.textColor = .tertiaryLabel
+        field.backgroundColor = .secondarySystemBackground
+        field.textColor = .secondaryLabel
         field.placeholder = String(localized: "Phone number")
         field.clearButtonMode = .whileEditing
 
@@ -95,10 +104,10 @@ final class AddEditContactViewController: UIViewController {
     private lazy var emailField: UITextField = {
         let field = UITextField()
         field.translatesAutoresizingMaskIntoConstraints = false
-        field.font = .systemFont(ofSize: 24)
+        field.font = .systemFont(ofSize: 20)
         field.borderStyle = .roundedRect
-        field.backgroundColor = .tertiarySystemBackground
-        field.textColor = .tertiaryLabel
+        field.backgroundColor = .secondarySystemBackground
+        field.textColor = .secondaryLabel
         field.placeholder = String(localized: "Email")
         field.clearButtonMode = .whileEditing
         return field
@@ -116,7 +125,7 @@ final class AddEditContactViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = String(localized: "Birth date")
-        label.font = .systemFont(ofSize: 24)
+        label.font = .systemFont(ofSize: 20)
         label.textColor = .tertiaryLabel
         return label
     }()
@@ -154,31 +163,50 @@ final class AddEditContactViewController: UIViewController {
     
     func setUpUI() {
         
+        setUpScrollView()
+        setUpBackgroundView()
+        setUpFields()
+    }
+    
+    func setUpScrollView() {
         view.addSubview(scrollView)
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
         ])
-        scrollView.addSubview(userPicure)
-        scrollView.addSubview(addUserPictureButton)
+    }
+    
+    func setUpBackgroundView() {
+        scrollView.addSubview(backgroundView)
+        NSLayoutConstraint.activate([
+            backgroundView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 36),
+            backgroundView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16),
+            backgroundView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.9),
+            backgroundView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
+        ])
+    }
+    
+    func setUpFields() {
+        backgroundView.addSubview(userPicure)
+        backgroundView.addSubview(addUserPictureButton)
         NSLayoutConstraint.activate([
             userPicure.heightAnchor.constraint(equalToConstant: 150),
             userPicure.widthAnchor.constraint(equalToConstant: 150),
-            userPicure.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 16),
-            userPicure.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            userPicure.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: 16),
+            userPicure.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor),
             
             addUserPictureButton.topAnchor.constraint(equalTo: userPicure.bottomAnchor),
             addUserPictureButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
         ])
-        scrollView.addSubview(verticalStack)
+        backgroundView.addSubview(verticalStack)
         NSLayoutConstraint.activate([
-            verticalStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -48),
+            verticalStack.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, constant: -48),
             verticalStack.topAnchor.constraint(equalTo: addUserPictureButton.bottomAnchor, constant: 24),
-            verticalStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant:  24),
-            verticalStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -24),
-            verticalStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -24),
+            verticalStack.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant:  24),
+            verticalStack.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -24),
+            verticalStack.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -24),
         ])
         verticalStack.addArrangedSubview(nameField)
         verticalStack.addArrangedSubview(lastNameField)
