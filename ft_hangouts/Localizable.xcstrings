@@ -12,24 +12,13 @@
         }
       }
     },
-    " Make a call" : {
+    " message" : {
       "extractionState" : "manual",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Позвонить"
-          }
-        }
-      }
-    },
-    " Send message" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Отправить сообщение"
+            "value" : "сообщение"
           }
         }
       }
@@ -74,6 +63,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Дата рождения"
+          }
+        }
+      }
+    },
+    "call" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Позвонить"
           }
         }
       }

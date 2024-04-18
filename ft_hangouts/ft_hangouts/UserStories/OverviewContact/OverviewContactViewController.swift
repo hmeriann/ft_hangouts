@@ -51,23 +51,39 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         stack.spacing = 16
         return stack
     }()
+    
+    
+    
+    
     private lazy var sendMessageButton: UIButton = {
-        let button = UIButton(type: .system)
-        let boldConfig = UIImage.SymbolConfiguration(weight: .bold)
-        let boldMessage = UIImage(systemName: "message", withConfiguration: boldConfig)
-        button.setTitleColor(.systemBlue, for: .normal)
-        button.setTitle(String(localized: " Send message"), for: .normal)
-        button.setImage(boldMessage, for: .normal)
+        var configuration = UIButton.Configuration.filled()
+        configuration.buttonSize = .large
+        configuration.cornerStyle = .medium
+        configuration.baseBackgroundColor = .secondarySystemBackground
+        configuration.imagePlacement = .top
+        configuration.baseForegroundColor = .secondaryLabel
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 32, bottom: 16, trailing: 32)
+
+        configuration.title = String(localized: "message")
+        configuration.image = UIImage(systemName: "message.fill")
+
+        let button = UIButton(configuration: configuration)
         button.addTarget(self, action: #selector(sendMessagePressed), for: .touchUpInside)
         return button
     }()
     private lazy var makeCallButton: UIButton = {
-        let button = UIButton(type: .system)
-        let boldConfig = UIImage.SymbolConfiguration(weight: .bold)
-        let boldMessage = UIImage(systemName: "phone", withConfiguration: boldConfig)
-        button.setTitleColor(.systemBlue, for: .normal)
-        button.setTitle(String(localized: " Make a call"), for: .normal)
-        button.setImage(boldMessage, for: .normal)
+        var configuration = UIButton.Configuration.filled()
+        configuration.buttonSize = .large
+        configuration.cornerStyle = .medium
+        configuration.baseBackgroundColor = .secondarySystemBackground
+        configuration.imagePlacement = .top
+        configuration.baseForegroundColor = .secondaryLabel
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 52, bottom: 16, trailing: 52)
+
+        configuration.title = String(localized: "call")
+        configuration.image = UIImage(systemName: "phone.fill")
+        
+        let button = UIButton(configuration: configuration)
         button.addTarget(self, action: #selector(makeACallPressed), for: .touchUpInside)
         return button
     }()
