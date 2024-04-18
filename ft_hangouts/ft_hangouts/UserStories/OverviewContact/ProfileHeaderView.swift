@@ -58,7 +58,8 @@ final class ProfileHeaderView: UIView {
             userPicure.heightAnchor.constraint(equalToConstant: 150),
             userPicure.widthAnchor.constraint(equalToConstant: 150),
             userPicure.centerXAnchor.constraint(equalTo: centerXAnchor),
-            profileNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
+            profileNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            profileNameLabel.topAnchor.constraint(equalTo: userPicure.bottomAnchor, constant: 40)
         ])
         
         userPicure.setContentHuggingPriority(UILayoutPriority(251), for: NSLayoutConstraint.Axis.horizontal)

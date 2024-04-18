@@ -189,8 +189,6 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         mainStackView.addArrangedSubview(profileHeaderView)
         profileHeaderView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            // Why constant?
-            profileHeaderView.heightAnchor.constraint(equalToConstant: 300),
             // to set the width of the stackView
             profileHeaderView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
         ])
