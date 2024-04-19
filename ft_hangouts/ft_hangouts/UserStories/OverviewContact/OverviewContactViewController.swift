@@ -213,9 +213,6 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
     private func setUpDeleteButton() {
         mainStackView.addArrangedSubview(deleteButton)
         NSLayoutConstraint.activate([
-//            deleteButton.topAnchor.constraint(equalTo: buttonsStackView.bottomAnchor, constant: 32),
-//            deleteButton.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -32),
-//            
             deleteButton.centerXAnchor.constraint(equalTo: mainStackView.centerXAnchor)
         ])
     }
