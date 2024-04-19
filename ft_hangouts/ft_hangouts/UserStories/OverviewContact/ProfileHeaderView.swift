@@ -30,7 +30,7 @@ final class ProfileHeaderView: UIView {
         let stackView = UIStackView(arrangedSubviews: [profileImageStackView, profileNameLabel])
         stackView.distribution = .fill
         stackView.axis = .vertical
-        stackView.spacing = 16
+        stackView.spacing = 40
         return stackView
     }()
     
@@ -59,7 +59,6 @@ final class ProfileHeaderView: UIView {
             userPicure.widthAnchor.constraint(equalToConstant: 150),
             userPicure.centerXAnchor.constraint(equalTo: centerXAnchor),
             profileNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            profileNameLabel.topAnchor.constraint(equalTo: userPicure.bottomAnchor, constant: 40)
         ])
         
         userPicure.setContentHuggingPriority(UILayoutPriority(251), for: NSLayoutConstraint.Axis.horizontal)
