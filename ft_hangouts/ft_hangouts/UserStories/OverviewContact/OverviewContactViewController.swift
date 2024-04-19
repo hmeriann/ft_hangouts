@@ -148,7 +148,6 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         setUpMainStackView()
         setUpProfileHeaderView()
         setUpButtons()
-//        setUpPhoneNumberView()
         setUpDeleteButton()
     }
     
@@ -195,19 +194,6 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         mainStackView.addArrangedSubview(buttonsStackView)
         buttonsStackView.addArrangedSubview(sendMessageButton)
         buttonsStackView.addArrangedSubview(makeCallButton)
-    }
-    
-    private func setUpPhoneNumberView() {
-        mainStackView.addArrangedSubview(phoneNumberView)
-        phoneNumberView.addSubview(phoneNumberLabel)
-        NSLayoutConstraint.activate([
-            phoneNumberLabel.leadingAnchor.constraint(equalTo: phoneNumberView.leadingAnchor, constant: 16),
-            phoneNumberLabel.trailingAnchor.constraint(equalTo: phoneNumberView.trailingAnchor, constant: -16),
-            phoneNumberLabel.topAnchor.constraint(equalTo: phoneNumberView.topAnchor, constant: 16),
-            phoneNumberLabel.bottomAnchor.constraint(equalTo: phoneNumberView.bottomAnchor, constant: -16),
-            
-            phoneNumberView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor)
-        ])
     }
     
     private func setUpDeleteButton() {
