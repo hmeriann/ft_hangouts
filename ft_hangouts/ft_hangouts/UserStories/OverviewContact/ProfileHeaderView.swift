@@ -20,7 +20,6 @@ final class ProfileHeaderView: UIView {
         userpic.contentMode = .scaleAspectFill
         userpic.layer.cornerRadius = 75
         userpic.clipsToBounds = true
-        userpic.image = UIImage(systemName: "person.crop.circle.fill")
         return userpic
     }()
     
