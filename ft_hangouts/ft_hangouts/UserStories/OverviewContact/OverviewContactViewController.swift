@@ -36,7 +36,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         stackView.distribution = .equalSpacing
         stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.spacing = 16
+        stackView.spacing = 32
         return stackView
     }()
     
@@ -51,9 +51,6 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         stack.spacing = 16
         return stack
     }()
-    
-    
-    
     
     private lazy var sendMessageButton: UIButton = {
         var configuration = UIButton.Configuration.filled()
@@ -151,7 +148,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         setUpMainStackView()
         setUpProfileHeaderView()
         setUpButtons()
-        setUpPhoneNumberView()
+//        setUpPhoneNumberView()
         setUpDeleteButton()
     }
     
@@ -181,7 +178,7 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
             mainStackView.topAnchor.constraint(equalTo: backgroundView.topAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -24),
+            mainStackView.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -36),
         ])
     }
     
@@ -189,8 +186,6 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
         mainStackView.addArrangedSubview(profileHeaderView)
         profileHeaderView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            // Why constant?
-            profileHeaderView.heightAnchor.constraint(equalToConstant: 300),
             // to set the width of the stackView
             profileHeaderView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
         ])
@@ -217,6 +212,9 @@ final class OverviewContactViewController: UIViewController, MFMessageComposeVie
     
     private func setUpDeleteButton() {
         mainStackView.addArrangedSubview(deleteButton)
+        NSLayoutConstraint.activate([
+            deleteButton.centerXAnchor.constraint(equalTo: mainStackView.centerXAnchor)
+        ])
     }
     
     private func configure(with contact: DBContact) {

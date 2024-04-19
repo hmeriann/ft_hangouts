@@ -20,7 +20,6 @@ final class ProfileHeaderView: UIView {
         userpic.contentMode = .scaleAspectFill
         userpic.layer.cornerRadius = 75
         userpic.clipsToBounds = true
-        userpic.image = UIImage(systemName: "person.crop.circle.fill")
         return userpic
     }()
     
@@ -30,7 +29,7 @@ final class ProfileHeaderView: UIView {
         let stackView = UIStackView(arrangedSubviews: [profileImageStackView, profileNameLabel])
         stackView.distribution = .fill
         stackView.axis = .vertical
-        stackView.spacing = 16
+        stackView.spacing = 40
         return stackView
     }()
     
@@ -58,7 +57,7 @@ final class ProfileHeaderView: UIView {
             userPicure.heightAnchor.constraint(equalToConstant: 150),
             userPicure.widthAnchor.constraint(equalToConstant: 150),
             userPicure.centerXAnchor.constraint(equalTo: centerXAnchor),
-            profileNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
+            profileNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
         ])
         
         userPicure.setContentHuggingPriority(UILayoutPriority(251), for: NSLayoutConstraint.Axis.horizontal)

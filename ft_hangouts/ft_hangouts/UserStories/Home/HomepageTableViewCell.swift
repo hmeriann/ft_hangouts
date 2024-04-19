@@ -17,8 +17,6 @@ final class HomepageTableViewCell: UITableViewCell {
         userpic.contentMode = .scaleAspectFill
         userpic.layer.cornerRadius = 25
         userpic.clipsToBounds = true
-        userpic.tintColor = .gray
-        userpic.image = UIImage(systemName: "person.crop.circle.fill")
         return userpic
     }()
     
